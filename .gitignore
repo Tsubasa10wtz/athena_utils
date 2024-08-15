@@ -1,0 +1,16 @@
+Logs/
+
+*.json
+*.txt
+*.pdf
+*.xlsx
+
+twitter*/
+MSR*/
+hust*/
+wiki/
+
+*.log
+*.csv
+*.tbz2
+*.xml
