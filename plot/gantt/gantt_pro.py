@@ -115,7 +115,7 @@ batch_times, iter_data = normalize_times(batch_times, iter_data)
 def plot_gantt(batches, iter_data):
     fig, ax = plt.subplots(figsize=(10, len(batches) * 0.5))
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c']  # 分别代表 read, transform, calc
-    labels = ['Read Time', 'Transform Time', 'Comp Time']
+    labels = ['Read Time', 'Transform Time', 'Compute Time']
 
     yticks = []
     yticklabels = []
@@ -151,15 +151,17 @@ def plot_gantt(batches, iter_data):
         yticklabels.append(f"Batch {i+1}")
 
     ax.set_yticks(yticks)
-    ax.set_yticklabels(yticklabels)
-    ax.set_xlabel('Time (s)')
+    ax.set_yticklabels(yticklabels, fontsize=20)
+    ax.set_xlabel('Time (s)', fontsize=24)
+    ax.tick_params(axis='x', labelsize=20)
     ax.set_xlim(left=0)  # 设置横轴从0开始
-    ax.set_title('Timeline Of Batches')
+    # ax.set_title('Timeline Of Batches')
+
 
     # 添加图例
     from matplotlib.patches import Patch
     legend_elements = [Patch(facecolor=colors[i], edgecolor='black', label=labels[i]) for i in range(3)]
-    ax.legend(handles=legend_elements, loc='upper right')
+    ax.legend(handles=legend_elements, loc='lower right',fontsize=24)
 
     plt.savefig("./gantt.pdf", format='pdf', bbox_inches='tight')
     plt.show()

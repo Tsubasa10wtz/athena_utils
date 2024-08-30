@@ -105,7 +105,7 @@ def extract_inodes_and_paths(node, current_path="", progress_bar=None):
 
 
 # 从 JSON 文件读取数据
-with open('athena-dump.json', 'r') as file:
+with open('athena-dump-0829.json', 'r') as file:
     data = json.load(file)
 
 # 计算需要处理的总节点数

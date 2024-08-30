@@ -4,8 +4,8 @@ import matplotlib.patches as patches
 
 # 读取文件内容
 prefix = './txt'
-# name = 'v100/v100/resnet_imagenet_cache/1worker/3iter'
-name = 'v100/cpu/resnet_imagenet_cache/1worker/3iter'
+name = 'v100/v100/resnet_imagenet_cache/1worker/3iter'
+# name = 'v100/cpu/resnet_imagenet_cache/1worker/3iter'
 txt_path = os.path.join(prefix, name) + '.txt'
 with open(txt_path, 'r') as file:
     lines = file.readlines()
@@ -42,16 +42,17 @@ ax.set_xlim(x_min, x_max)
 ax.set_ylim(-1, len(intervals))
 ax.set_xlabel('Time(s)')
 ax.set_ylabel('IO Number')
-ax.set_title('IO Time Interval Distribution')
+# ax.set_title('IO Time Interval Distribution')
 
 # 增大刻度标签的字体大小
 ax.tick_params(axis='both', which='major')
 
 # 保存图表为PDF格式
-# prefix = './pic'
-# save_path = os.path.join(prefix, name) + '.pdf'
-# os.makedirs(os.path.dirname(save_path), exist_ok=True)
-# plt.savefig(save_path, format='pdf')
+prefix = './pic'
+save_path = os.path.join(prefix, name) + '.pdf'
+os.makedirs(os.path.dirname(save_path), exist_ok=True)
+plt.savefig(save_path, format='pdf')
+
 
 # 显示图表
 plt.show()

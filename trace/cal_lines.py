@@ -11,6 +11,6 @@ def count_lines_in_file(file_path):
         return 0
 
 # 示例用法
-file_path = 'MSR-Cambridge/proj_3.csv'
+file_path = 'twitter/cache-trace/samples/2020Mar/cluster054'
 line_count = count_lines_in_file(file_path)
 print(f"Total number of lines: {line_count}")

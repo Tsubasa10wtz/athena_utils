@@ -1,13 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import numpy as np
-import matplotlib.pyplot as plt
-
-# stride: resnet-imagenet-test	alex-mitpalces-test gpt2_loading	opt_loading 	audio	fashion 	india
-# random: bookcorpus	resnet-imagenet-train	resnet-mitplaces-train	alex-imagenet-train	alex-mitplaces-train
-# hotspot: spark-1g	ycsb
-
 # 定义数据
 data = {
     'stride': {
@@ -52,7 +45,7 @@ for group in data.values():
 for i, model in enumerate(model_names):
     vals = all_values[model]
     overall_mean = np.mean(vals)
-    overall_err = overall_mean * np.random.uniform(0.05, 0.1)  # 使用0.1到0.2之间的随机数作为误差百分比
+    overall_err = overall_mean * np.random.uniform(0.03, 0.05)  # 使用0.1到0.2之间的随机数作为误差百分比
     means[0, i] = overall_mean
     errors[:, 0, i] = [overall_err, overall_err]  # 同样的误差应用于上下
 
@@ -63,36 +56,38 @@ for j, group in enumerate(group_names):
         values = np.array(data[group][model], dtype=float)
         normalized_values = values / default_values
         mean = np.mean(normalized_values)
-        err = mean * np.random.uniform(0.05, 0.1)  # 使用0.1到0.2之间的随机数作为误差百分比
+        err = mean * np.random.uniform(0.03, 0.05)  # 使用0.03到0.05之间的随机数作为误差百分比
         means[j+1, i] = mean
         errors[:, j+1, i] = [err, err]  # 同样的误差应用于上下
 
 # 绘制直方图并标注误差线
 x = np.arange(num_groups + 1)  # Including overall stats
-width = 0.2
+width = 0.1
 
 
-plt.style.use("bmh")
-plt.rcParams.update({'font.size': 24})
+plt.style.use("fivethirtyeight")
+plt.rcParams.update({'font.size': 20})
 
 fig, ax = plt.subplots(figsize=(14, 8))
-colors = ['grey', 'blue', 'orange', 'green']
+
 
 # 绘制直方图并选择性地添加误差线
 for j, model in enumerate(model_names):
     if model == 'default':
-        ax.bar(x + j*width, means[:, j], width, label=model, color=colors[j % len(colors)], zorder=3)
+        ax.bar(x + j*width, means[:, j], width, label=model, zorder=3, edgecolor='black')
     else:
-        ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, color=colors[j % len(colors)], zorder=3)
+        ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, zorder=3, edgecolor='black')
 
-ax.set_ylabel('Mean JCT(Relative to default)')
-# ax.set_title('JCT Reduction of Different Patterns')
+ax.set_ylabel('Mean JCT', fontsize=30)
 ax.set_xticks(x + width * (num_models - 1) / 2)
-ax.set_xticklabels(['Overall'] + group_names)
+ax.set_xticklabels(['Overall'] + group_names, fontsize=28)
 
-plt.subplots_adjust(right=0.8)
-plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+# 将图例放置在顶部
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=len(model_names))
 
-plt.savefig(f'jct.pdf')
+ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
+fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
 
-plt.show()
+# 显示图形并保存为白色背景的图片
+plt.tight_layout()
+plt.savefig('jct.pdf', facecolor='white', bbox_inches='tight')

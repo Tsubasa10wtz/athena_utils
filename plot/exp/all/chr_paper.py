@@ -49,20 +49,24 @@ for model in model_names:
 
 # 绘制直方图
 x = np.arange(num_groups + 1)  # Including overall stats
-width = 0.2  # the width of the bars
+width = 0.1  # the width of the bars
 
-plt.style.use("bmh")
-plt.rcParams.update({'font.size': 24})
+plt.style.use("fivethirtyeight")
+
+plt.rcParams.update({'font.size': 20})
 
 fig, ax = plt.subplots(figsize=(14, 8))
 
+# colors = ['#3e8dcf', '#e95c3f', '#ddb050', '#748f56']
 
-colors = ['grey', 'blue', 'orange', 'green']
+colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+
 
 # First, draw the overall stats
 for i, model in enumerate(model_names):
     # ax.bar(x[0] + i*width, overall_means[i], width, yerr=np.array(overall_errors[i]).reshape(2, 1), capsize=5, label=model, color=colors[i % len(colors)],zorder=3)
-    ax.bar(x[0] + i*width, overall_means[i], width, capsize=5, label=model, color=colors[i % len(colors)], zorder=3)
+    ax.bar(x[0] + i*width, overall_means[i], width, capsize=5, label=model, color=colors[i % len(colors)], zorder=3, edgecolor='black')
 
 # Then draw each group
 for i, model in enumerate(model_names):
@@ -71,13 +75,23 @@ for i, model in enumerate(model_names):
         group_mean = np.mean(group_values)
         group_min = np.min(group_values)
         group_max = np.max(group_values)
-        ax.bar(x[j+1] + i*width, group_mean, width, capsize=5, color=colors[i % len(colors)], zorder=3)
+        ax.bar(x[j+1] + i*width, group_mean, width, capsize=5, color=colors[i % len(colors)], zorder=3, edgecolor='black')
 
-ax.set_ylabel('Mean Cache Hit Ratio')
-ax.set_title('Cache Hit Ratio of Different Patterns')
+
+
+
+ax.set_ylabel('Mean Cache Hit Ratio', fontsize=30)
+# ax.set_title('Cache Hit Ratio of Different Patterns')
 ax.set_xticks(x + width * (num_models - 1) / 2)
-ax.set_xticklabels(['Overall'] + group_names)
-plt.subplots_adjust(right=0.8)
-plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+ax.set_xticklabels(['Overall'] + group_names, fontsize=28)
+plt.subplots_adjust(top=0.8)
 
-plt.savefig(f'chr.pdf')
+# 将图例放置在顶部
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=len(model_names))
+
+ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
+fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+
+# 显示图形并保存为白色背景的图片
+plt.tight_layout()
+plt.savefig('chr.pdf', facecolor='white', bbox_inches='tight')

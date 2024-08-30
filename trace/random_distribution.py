@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 生成一个从0到100000的列表
-numbers = list(range(100000))
+numbers = list(range(50000))
 
 # 随机打乱列表
 np.random.shuffle(numbers)

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 生成一个包含1000个0-999之间随机数的数组
-ids = np.random.randint(0, 1000, size=100000)
+ids = np.random.randint(0, 50000, size=500000)
 
 
 plt.hist(ids, bins=len(set(ids)), edgecolor='black')
@@ -12,7 +12,7 @@ plt.title('Distribution of IDs')
 plt.show()
 
 
-ids = ids[0:100000]
+# ids = ids[0:100000]
 
 # 计算每个ID的出现频次
 frequency = np.bincount(ids)
@@ -59,7 +59,8 @@ plt.rcParams.update({'font.size': 26})
 plt.figure(figsize=(16, 8))
 
 # 绘制差值的分布
-plt.hist(diff_list, bins=50, edgecolor='black')  # 50个箱子应该足够细致地展示分布
+# plt.hist(diff_list, bins=50, edgecolor='black')  # 50个箱子应该足够细致地展示分布
+plt.hist(diff_list, bins=30, edgecolor='black')  # 50个箱子应该足够细致地展示分布
 plt.xlabel('Distance')
 plt.ylabel('Frequency')
 plt.savefig(f'random.pdf')

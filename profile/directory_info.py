@@ -43,7 +43,7 @@ def process_directory(directory, parent_path=""):
 
 
 # 读取 JSON 数据
-with open('athena-dump.json', 'r') as file:
+with open('athena-dump-0829.json', 'r') as file:
     data = json.load(file)
 
 # 添加根目录的名称（假设根目录没有名称字段）
