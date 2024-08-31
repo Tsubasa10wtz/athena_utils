@@ -2,10 +2,14 @@ import numpy as np
 from scipy.stats import kstest
 import matplotlib.pyplot as plt
 
-# 生成一个包含1000个0-999之间随机数的数组
-ids = np.random.randint(0, 1000, size=300)
+c = 10000 # 或其他你认为合理的值
 
-ids = ids[0:1000]
+ids = np.arange(c)
+np.random.shuffle(ids)
+
+
+ids = ids[0:10000]
+print(len(ids))
 
 # 计算每个ID的出现频次
 frequency = np.bincount(ids)
@@ -34,7 +38,6 @@ def triangular_cdf(x, c):
     return np.where(x < 0, 0, np.where(x > c, 1, ((2*x*c-x**2)/c**2)))
 
 # 假设 c 已知
-c = 1000  # 或其他你认为合理的值
 
 # 执行KS检验
 result = kstest(diff_list, triangular_cdf, args=(c,))

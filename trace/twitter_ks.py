@@ -47,7 +47,8 @@ def triangular_cdf(x, c):
 # 假设 c 已知
 c = 61748
 
-diff_list = data['diff'].tolist()[1:301]
+
+diff_list = data['diff'].tolist()[1:50]
 print(diff_list)
 
 

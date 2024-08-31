@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 加载CSV文件
-df = pd.read_csv('twitter/cache-trace/samples/2020Mar/cluster010', header=None)  # 假设CSV文件没有列标题
+df = pd.read_csv('twitter/cache-trace/samples/2020Mar/cluster039', header=None, on_bad_lines='skip')  # 假设CSV文件没有列标题
 
 # 筛选包含“get”字段的行（注意是第六列，索引为5）
 df = df[df[5].str.contains('get', case=False, na=False)]
