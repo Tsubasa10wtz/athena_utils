@@ -36,7 +36,7 @@ for cluster_num, c in cluster_info.items():
 
     # 计算p值
     p_values = []
-    step_size = c // 10
+    step_size = 50
     for i in range(0, len(diffs), step_size):
         diff_list = diffs[i:i + step_size]
         if len(diff_list) < step_size:
@@ -56,16 +56,16 @@ fig, ax = plt.subplots(figsize=(10, 8))
 
 plt.boxplot(all_p_values, medianprops={'color': 'black', 'linewidth': '1.5'},
             patch_artist=True,
-            boxprops={'facecolor': '#ffa500'},
-            widths=0.21,
+            boxprops={'facecolor': '#add8e6'},
+            widths=0.2,
             meanline=False,
             showmeans=False,
-            flierprops={"marker": "o", "markerfacecolor": "#add8e6", "markersize": 10},
-            labels=[f'Cluster {n}' for n in cluster_info.keys()])
+            flierprops={"marker": "o", "markerfacecolor": "#ffa500", "markersize": 10},
+            labels=[f'Random {n}' for n in range(1,8)])
 
 # 添加一条表示 p-value = 0.05 的水平线
-ax.axhline(y=0.05, color='red', linestyle='--', linewidth=2)
-ax.text(0.5, 0.5, 'p=0.05', color='red', fontsize=20, transform=ax.transAxes)  # 添加文本标注
+ax.axhline(y=0.000001, color='red', linestyle='--', linewidth=2)
+ax.text(0.05, 0.08, 'y=1e-6', color='red', fontsize=20, transform=ax.transAxes)  # 添加文本标注
 
 plt.yscale('log')
 plt.ylabel('p-value (log scale)')
