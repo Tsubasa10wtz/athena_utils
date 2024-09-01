@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
-categories = ['Overall', 'imagenet\ntest', 'mitplaces\ntest', 'gpt2\nloading', 'opt\nloading', 'audio', 'fashion', 'india']
-no = np.array([584, 379, 87, 89, 36, 83, 2.7])
-stride = np.array([572, 375, 66, 70, 36, 81, 1.8])
-juicefs = np.array([545, 361, 63, 69, 33, 83, 1.16])
-context = np.array([586, 380, 86, 87, 35, 82, 2.7])  # 添加新的context数据
-athena = np.array([100, 105, 61, 71, 25, 20, 1.2])
+categories = ['Overall', 'imagenet\ntest', 'mitplaces\ntest', 'gpt2\nloading', 'opt\nloading', 'audio', 'fashion', 'india', 'marine']
+no = np.array([584, 379, 87, 89, 36, 83, 2.7, 35.2])
+stride = np.array([572, 375, 66, 70, 36, 81, 1.8, 35.4])
+juicefs = np.array([545, 361, 63, 69, 33, 83, 1.16, 35.1])
+context = np.array([586, 380, 86, 87, 35, 82, 2.7, 36.2])  # 添加新的context数据
+athena = np.array([100, 105, 61, 71, 25, 20, 1.2, 9.7])
 
 # 归一化计算
 juicefs_norm = juicefs / no
@@ -33,15 +33,15 @@ bar_width = 0.1  # 调整条形宽度，增加一个条形
 index = np.arange(len(categories))  # 分类标签位置
 
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 24})  # 设置字体大小
+plt.rcParams.update({'font.size': 22})  # 设置字体大小
 
 fig, ax = plt.subplots(figsize=(14, 8))  # 调整图形大小
 
 # 绘制条形图
-ax.bar(index - 2 * bar_width, no_norm, bar_width, label='no', edgecolor='black')  # no作为基准
-ax.bar(index - bar_width, stride_norm, bar_width, label='stride', edgecolor='black')
-ax.bar(index, juicefs_norm, bar_width, label='juicefs', edgecolor='black')
-ax.bar(index + bar_width, context_norm, bar_width, label='context', edgecolor='black')  # 插入context
+ax.bar(index - 2 * bar_width, no_norm, bar_width, label='No', edgecolor='black')  # no作为基准
+ax.bar(index - bar_width, stride_norm, bar_width, label='Stride', edgecolor='black')
+ax.bar(index, juicefs_norm, bar_width, label='Juicefs', edgecolor='black')
+ax.bar(index + bar_width, context_norm, bar_width, label='Context', edgecolor='black')  # 插入context
 ax.bar(index + 2 * bar_width, athena_norm, bar_width, label='Athena', edgecolor='black')
 
 # 添加标签、标题和自定义x轴刻度标签

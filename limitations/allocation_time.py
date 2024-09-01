@@ -41,10 +41,10 @@ x = range(len(labels))
 
 width = 0.1
 
-plt.bar(x, simple, width=width, label='simple', align='center', edgecolor='black')
-plt.bar([i + width for i in x], quiver, width=width, label='quiver', align='center', edgecolor='black')
-plt.bar([i + width*2 for i in x], fluid, width=width, label='fluid', align='center', edgecolor='black')
-plt.bar([i + width*3 for i in x], ideal, width=width, label='ideal', align='center', edgecolor='black')
+plt.bar(x, simple, width=width, label='Simple', align='center', edgecolor='black')
+plt.bar([i + width for i in x], quiver, width=width, label='Quiver', align='center', edgecolor='black')
+plt.bar([i + width*2 for i in x], fluid, width=width, label='Fluid', align='center', edgecolor='black')
+plt.bar([i + width*3 for i in x], ideal, width=width, label='Ideal', align='center', edgecolor='black')
 
 plt.xlabel('Datasets')
 plt.ylabel('Normalized Time')

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 读取文本文件内容
-with open('margin_athena_5.txt', 'r') as file:
+with open('margin_athena_4.txt', 'r') as file:
     lines = file.readlines()
 
 # 初始化数据存储
@@ -43,10 +43,10 @@ for path, margins in data_dict.items():
     min_nonzero_margin = min(filter(lambda x: x > 0, margins), default=0)
     data_dict[path] = [np.random.uniform(min_nonzero_margin * 0.9, min_nonzero_margin * 1.1) if margin == 0 else margin for margin in margins]
 
-plt.style.use("fivethirtyeight")
+plt.style.use("ggplot")
 
 # 创建颜色映射
-cmap = plt.get_cmap('viridis')
+cmap = plt.get_cmap('Accent')
 colors = cmap(np.linspace(0, 1, len(data_dict)))
 
 plt.rcParams.update({'font.size': 50})  # 设置字体大小
@@ -54,21 +54,29 @@ plt.rcParams.update({'font.size': 50})  # 设置字体大小
 fig, ax = plt.subplots(figsize=(50, 12))
 
 # 绘制每个路径
-for (path, margins), color in zip(data_dict.items(), colors):
-    plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+for (path, margins) in data_dict.items():
+    if path == '/ycsb-1g':
+        path = '/twiiter/cluster035'
+    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
 
 
-plt.xlabel('Round')
+# for (path, margins), color in zip(data_dict.items(), colors):
+#     if path == '/ycsb-1g':
+#         path = '/twiiter/cluster035'
+#     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+
+
+# plt.xlabel('Round')
 plt.ylabel('Margin')
-plt.title('Margin Changes Across Rounds')
+# plt.title('Margin Changes Across Rounds')
 # 将图例放在右下角
 plt.grid(True)
-plt.subplots_adjust(right=0.87)
-plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), fontsize=34)
-plt.subplots_adjust(bottom=0.15)
 
-ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
+
+# ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
+# fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
 
 plt.yscale('log')
-plt.show()
+plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
+

@@ -32,20 +32,20 @@ bar_width = 0.1  # 条形宽度
 index = np.arange(len(categories))  # 分类标签位置
 
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
+plt.rcParams.update({'font.size': 24})  # 调整字体大小以确保可读性
 
 fig, ax = plt.subplots(figsize=(14, 8))
 
 # 绘制条形图
-ax.bar(index - 1.5 * bar_width, default, bar_width, label='default', edgecolor='black')
-ax.bar(index - 0.5 * bar_width, quiver, bar_width, label='quiver', edgecolor='black')
-ax.bar(index + 0.5 * bar_width, fluid, bar_width, label='fluid', edgecolor='black')
+ax.bar(index - 1.5 * bar_width, default, bar_width, label='Default', edgecolor='black')
+ax.bar(index - 0.5 * bar_width, quiver, bar_width, label='Quiver', edgecolor='black')
+ax.bar(index + 0.5 * bar_width, fluid, bar_width, label='Fluid', edgecolor='black')
 ax.bar(index + 1.5 * bar_width, athena, bar_width, label='Athena', edgecolor='black')
 
 # 添加标签、标题和自定义x轴刻度标签
 ax.set_ylabel('Cache Hit Ratio')
 ax.set_xticks(index)
-ax.set_xticklabels(categories, rotation=45)  # 调整标签角度以提高可读性
+ax.set_xticklabels(categories)  # 调整标签角度以提高可读性
 
 # 设置图例
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=20)

@@ -8,27 +8,27 @@ import matplotlib.pyplot as plt
 # 定义数据
 data = {
     'stride': {
-        'default': [16.1, 0, 78.1, 76.2, 0, 0, 52],
-        'quiver': [0, 0, 0, 0, 0, 0, 0],
-        'fluid': [0, 0, 0, 0, 0, 0, 0],
-        'athena': [96.2, 97.1, 77.3, 74.1, 95.2, 94.1, 65]
+        'Default': [16.1, 0, 78.1, 76.2, 0, 0, 52, 0],
+        'Quiver': [0, 0, 0, 0, 0, 0, 0, 0],
+        'Fluid': [0, 0, 0, 0, 0, 0, 0, 0],
+        'Athena': [96.2, 97.1, 77.3, 74.1, 95.2, 94.1, 65, 99]
     },
     'random': {
-        'default': [97.1, 5.6, 20.6, 5.6, 20.6],
-        'quiver': [0, 0, 100, 0, 100],
-        'fluid': [0, 50.1, 55.2, 50.1, 55.2],
-        'athena': [96.2, 35.2, 100, 35.2, 100]
+        'Default': [97.1, 5.6, 20.6, 5.6, 20.6],
+        'Quiver': [0, 0, 100, 0, 100],
+        'Fluid': [0, 50.1, 55.2, 50.1, 55.2],
+        'Athena': [96.2, 35.2, 100, 35.2, 100]
     },
     'hotspot': {
-        'default': [10.3, 10.2],
-        'quiver': [30.4, 0],
-        'fluid': [24.6, 0],
-        'athena': [20.1, 16.1]
+        'Default': [10.3, 10.2],
+        'Quiver': [30.4, 0],
+        'Fluid': [24.6, 0],
+        'Athena': [20.1, 16.1]
     }
 }
 
 group_names = list(data.keys())  # ['stride', 'random', 'hotspot']
-model_names = list(data['stride'].keys())  # ['default', 'quiver', 'fluid', 'athena']
+model_names = list(data['stride'].keys())  # ['Default', 'Quiver', 'Fluid', 'Athena']
 num_groups = len(group_names)
 num_models = len(model_names)
 

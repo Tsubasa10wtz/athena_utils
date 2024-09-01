@@ -43,10 +43,10 @@ for path, margins in data_dict.items():
     min_nonzero_margin = min(filter(lambda x: x > 0, margins), default=0)
     data_dict[path] = [np.random.uniform(min_nonzero_margin * 0.9, min_nonzero_margin * 1.1) if margin == 0 else margin for margin in margins]
 
-plt.style.use("fivethirtyeight")
+plt.style.use("ggplot")
 
 # 创建颜色映射
-cmap = plt.get_cmap('viridis')
+cmap = plt.get_cmap('Accent')
 colors = cmap(np.linspace(0, 1, len(data_dict)))
 
 plt.rcParams.update({'font.size': 50})  # 设置字体大小
@@ -54,10 +54,16 @@ plt.rcParams.update({'font.size': 50})  # 设置字体大小
 fig, ax = plt.subplots(figsize=(50, 12))
 
 # 绘制每个路径
-for (path, margins), color in zip(data_dict.items(), colors):
+for (path, margins) in data_dict.items():
     if path == '/ycsb-1g':
         path = '/twiiter/cluster035'
-    plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
+
+
+# for (path, margins), color in zip(data_dict.items(), colors):
+#     if path == '/ycsb-1g':
+#         path = '/twiiter/cluster035'
+#     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
 
 
 plt.xlabel('Round')
@@ -68,8 +74,8 @@ plt.grid(True)
 
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
 
-ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+# ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
+# fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
 
 plt.yscale('log')
 plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')

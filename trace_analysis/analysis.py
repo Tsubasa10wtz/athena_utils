@@ -13,23 +13,25 @@ shuffled_access = np.random.permutation(data_size)
 plt.style.use("bmh")
 plt.rcParams.update({'font.size': 26})
 
+
 # 绘制图形
-plt.figure(figsize=(10, 8))
+# plt.figure(figsize=(10, 8)) # size for paper
+plt.figure(figsize=(14, 8))
 # 顺序访问
 # plt.subplot(1, 3, 1)
 plt.plot(np.arange(data_size), sequential_access, marker='o', linestyle='-')
 plt.xlabel('Access Ordinal')
 plt.ylabel('Data Index')
-plt.savefig(f'inference.pdf')
+plt.savefig(f'inference_slide.pdf')
 
 
 # 打乱后访问
 # plt.subplot(1, 3, 2)
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(14, 8))
 plt.plot(np.arange(data_size), shuffled_access, marker='o', linestyle='-')
 plt.xlabel('Access Ordinal')
 plt.ylabel('Data Index')
-plt.savefig(f'training.pdf')
+plt.savefig(f'training_slide.pdf')
 
 
 
@@ -52,12 +54,12 @@ value_to_index = {value: index for index, value in enumerate(unique_values)}  # 
 df[1] = df[1].map(value_to_index)
 
 # 绘制访问索引变化图
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(14, 8))
 plt.plot(df.index, df[1], marker='o', linestyle='-')
 plt.xlabel('Access Ordinal')
 plt.ylabel('Data Index')
 plt.grid(True)
-plt.savefig(f'cluster010.pdf')
+plt.savefig(f'cluster010_slide.pdf')
 
 
 # 加载CSV文件
@@ -77,9 +79,9 @@ value_to_index = {value: index for index, value in enumerate(unique_values)}  # 
 df[1] = df[1].map(value_to_index)
 
 # 绘制访问索引变化图
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(14, 8))
 plt.plot(df.index, df[1], marker='o', linestyle='-')
 plt.xlabel('Access Ordinal')
 plt.ylabel('Data Index')
 plt.grid(True)
-plt.savefig(f'cluster050.pdf')
+plt.savefig(f'cluster050_slide.pdf')

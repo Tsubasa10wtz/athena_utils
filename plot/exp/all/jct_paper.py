@@ -4,27 +4,27 @@ import matplotlib.pyplot as plt
 # 定义数据
 data = {
     'stride': {
-        'default': [508, 339, 83.6, 88, 33, 83, 1.16],
-        'quiver': [544, 341, 105, 120, 33, 81, 1.19],
-        'fluid': [545, 342, 109, 114, 32, 82, 1.21],
-        'athena': [98, 105, 78.1, 86, 17, 20, 1.1]
+        'Default': [508, 339, 83.6, 88, 33, 83, 1.16, 35.2],
+        'Quiver': [544, 341, 105, 120, 33, 81, 1.19, 36.2],
+        'Fluid': [545, 342, 109, 114, 32, 82, 1.21, 35.3],
+        'Athena': [98, 105, 78.1, 86, 17, 20, 1.1, 9.7]
     },
     'random': {
-        'default': [1315, 181, 162, 179, 160],
-        'quiver': [1314, 201, 59, 195, 59],
-        'fluid': [1321, 119, 105, 119, 105],
-        'athena': [1320, 75, 59, 74, 58]
+        'Default': [1315, 181, 162, 179, 160],
+        'Quiver': [1314, 201, 59, 195, 59],
+        'Fluid': [1321, 119, 105, 119, 105],
+        'Athena': [1320, 75, 59, 74, 58]
     },
     'hotspot': {
-        'default': [2508, 2003],
-        'quiver': [2561, 2034],
-        'fluid': [2563, 2044],
-        'athena': [2549, 1818]
+        'Default': [2508, 2003],
+        'Quiver': [2561, 2034],
+        'Fluid': [2563, 2044],
+        'Athena': [2549, 1818]
     }
 }
 
 group_names = list(data.keys())  # ['stride', 'random', 'hotspot']
-model_names = list(data['stride'].keys())  # ['default', 'quiver', 'fluid', 'athena']
+model_names = list(data['stride'].keys())  # ['Default', 'Quiver', 'Fluid', 'Athena']
 num_groups = len(group_names)
 num_models = len(model_names)
 
@@ -35,10 +35,10 @@ errors = np.zeros((2, num_groups + 1, num_models))  # 2 for upper and lower erro
 # 归一化每个模型的所有数据并合并
 all_values = {model: [] for model in model_names}
 for group in data.values():
-    default_values = np.array(group['default'], dtype=float)
+    Default_values = np.array(group['Default'], dtype=float)
     for model in model_names:
         values = np.array(group[model], dtype=float)
-        normalized_values = values / default_values
+        normalized_values = values / Default_values
         all_values[model].extend(normalized_values)
 
 # 计算整体统计
@@ -51,10 +51,10 @@ for i, model in enumerate(model_names):
 
 # 计算各组的统计
 for j, group in enumerate(group_names):
-    default_values = np.array(data[group]['default'], dtype=float)
+    Default_values = np.array(data[group]['Default'], dtype=float)
     for i, model in enumerate(model_names):
         values = np.array(data[group][model], dtype=float)
-        normalized_values = values / default_values
+        normalized_values = values / Default_values
         mean = np.mean(normalized_values)
         err = mean * np.random.uniform(0.03, 0.05)  # 使用0.03到0.05之间的随机数作为误差百分比
         means[j+1, i] = mean
@@ -73,7 +73,7 @@ fig, ax = plt.subplots(figsize=(14, 8))
 
 # 绘制直方图并选择性地添加误差线
 for j, model in enumerate(model_names):
-    if model == 'default':
+    if model == 'Default':
         ax.bar(x + j*width, means[:, j], width, label=model, zorder=3, edgecolor='black')
     else:
         ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, zorder=3, edgecolor='black')

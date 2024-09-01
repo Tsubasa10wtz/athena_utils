@@ -50,9 +50,9 @@ for cluster_num, c in cluster_info.items():
 
 # 绘制所有cluster的箱线图
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 14})  # 设置字体大小
+plt.rcParams.update({'font.size': 20})  # 设置字体大小
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(14, 8))
 
 plt.boxplot(all_p_values, medianprops={'color': 'black', 'linewidth': '1.5'},
             patch_artist=True,
@@ -70,6 +70,7 @@ ax.text(0.05, 0.08, 'y=1e-6', color='red', fontsize=20, transform=ax.transAxes) 
 plt.yscale('log')
 plt.ylabel('p-value (log scale)')
 plt.tight_layout()
+plt.savefig('random_ks.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
 
 for cluster_num, min_p_value in min_p_values.items():

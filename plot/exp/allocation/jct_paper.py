@@ -41,9 +41,9 @@ plt.rcParams.update({'font.size': 24})  # 设置字体大小
 fig, ax = plt.subplots(figsize=(14, 8))
 
 # 绘制条形图
-bar1 = ax.bar(index - 1.5 * bar_width, np.insert(np.ones(len(default)), 0, default_mean), bar_width, label='default', edgecolor='black')  # default作为基准
-bar2 = ax.bar(index - 0.5 * bar_width, quiver_norm, bar_width, label='quiver', edgecolor='black')
-bar3 = ax.bar(index + 0.5 * bar_width, fluid_norm, bar_width, label='fluid', edgecolor='black')
+bar1 = ax.bar(index - 1.5 * bar_width, np.insert(np.ones(len(default)), 0, default_mean), bar_width, label='Default', edgecolor='black')  # default作为基准
+bar2 = ax.bar(index - 0.5 * bar_width, quiver_norm, bar_width, label='Quiver', edgecolor='black')
+bar3 = ax.bar(index + 0.5 * bar_width, fluid_norm, bar_width, label='Fluid', edgecolor='black')
 bar4 = ax.bar(index + 1.5 * bar_width, athena_norm, bar_width, label='Athena', edgecolor='black')
 
 # 添加标签、标题和自定义x轴刻度标签
