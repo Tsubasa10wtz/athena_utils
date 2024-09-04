@@ -113,13 +113,15 @@ def normalize_times(batches, iter_data):
 batch_times, iter_data = normalize_times(batch_times, iter_data)
 
 def plot_gantt(batches, iter_data):
-    fig, ax = plt.subplots(figsize=(10, len(batches) * 0.5))
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c']  # 分别代表 read, transform, calc
     labels = ['Read Time', 'Transform Time', 'Compute Time']
 
+    # plt.style.use("fivethirtyeight")
+    plt.rcParams.update({'font.size': 30})
+
     yticks = []
     yticklabels = []
-    fig, ax = plt.subplots(figsize=(12, 8))
+    fig, ax = plt.subplots(figsize=(10, 8))
 
     for i, (batch_time, iter) in enumerate(zip(batches, iter_data)):
         # 计算整个batch的持续时间
@@ -148,12 +150,15 @@ def plot_gantt(batches, iter_data):
         ax.broken_barh([(calc_start, calc_end - calc_start)], (i * 3, 1), facecolors=colors[2], edgecolor='black')
 
         yticks.append(i * 3 + 0.5)
-        yticklabels.append(f"Batch {i+1}")
+        yticklabels.append(f"{i+1}")
 
     ax.set_yticks(yticks)
-    ax.set_yticklabels(yticklabels, fontsize=20)
-    ax.set_xlabel('Time (s)', fontsize=24)
-    ax.tick_params(axis='x', labelsize=20)
+    ax.set_yticklabels(yticklabels)
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel("Mini Batches")
+    ax.set_yticks(yticks[::2])  # 只保留每两个的刻度
+    ax.set_yticklabels(yticklabels[::2])  # 只显示每两个的标签
+    ax.tick_params(axis='x')
     ax.set_xlim(left=0)  # 设置横轴从0开始
     # ax.set_title('Timeline Of Batches')
 
@@ -161,10 +166,12 @@ def plot_gantt(batches, iter_data):
     # 添加图例
     from matplotlib.patches import Patch
     legend_elements = [Patch(facecolor=colors[i], edgecolor='black', label=labels[i]) for i in range(3)]
-    ax.legend(handles=legend_elements, loc='lower right',fontsize=24)
+    ax.legend(handles=legend_elements, loc='lower right')
+    plt.tight_layout()
 
     plt.savefig("./gantt.pdf", format='pdf', bbox_inches='tight')
     plt.show()
+
 
 
 # 调用绘图函数

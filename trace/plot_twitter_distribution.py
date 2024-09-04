@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
+from matplotlib.ticker import FuncFormatter
+
 # 定义文件路径的模板
 file_path_template = 'twitter/cache-trace/samples/2020Mar/cluster{:03d}'
 
@@ -11,10 +13,14 @@ variance_diffs = []
 total_counts = []
 all_mappings = {}  # 用于存储每个cluster的编号映射
 
-plt.style.use("ggplot")
-plt.rcParams.update({'font.size': 24})
+def thousands(x, pos):
+    return '%1.0f' % (x * 1e-3)
 
-for i in range(1, 55):  # 从cluster001到cluster054
+plt.style.use("fivethirtyeight")
+plt.rcParams.update({'font.size': 40})
+
+
+for i in range(54, 55):  # 从cluster001到cluster054
     # 构建文件路径
     file_path = file_path_template.format(i)
 
@@ -67,13 +73,21 @@ for i in range(1, 55):  # 从cluster001到cluster054
     print()
 
     # 绘制差值的分布图
-    plt.figure(figsize=(16, 8))
+    plt.figure(figsize=(12, 8))
+    plt.rcParams.update({'font.size': 35})
     plt.hist(data['diff'], bins=30, edgecolor='black')
+    formatter = FuncFormatter(thousands)
     # plt.title('Distribution of Differences')
-    plt.xlabel('Difference')
-    plt.ylabel('Frequency')
+    plt.xlabel('Gap (× $10^3$)')
+    plt.ylabel('Frequency (× $10^3$)')
+
+    # 将横纵坐标都设置为以 *10^3 为单位显示
+    plt.gca().xaxis.set_major_formatter(formatter)
+    plt.gca().yaxis.set_major_formatter(formatter)
+
     plt.grid(True)
-    plt.savefig(f'twitter_fig/cluster{i:03d}.pdf')
+    plt.tight_layout()
+    plt.savefig(f'twitter_fig/cluster{i:03d}.pdf', facecolor='white', bbox_inches='tight')
 
 # # 输出所有cluster的第一列和编号的对应关系，按编号排序
 # print("\nID to Index Mapping for each Cluster:")

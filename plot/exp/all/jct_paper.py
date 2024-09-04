@@ -66,6 +66,7 @@ width = 0.1
 
 
 plt.style.use("fivethirtyeight")
+# plt.rcParams['font.family'] = 'Arial'
 plt.rcParams.update({'font.size': 20})
 
 fig, ax = plt.subplots(figsize=(14, 8))
@@ -78,7 +79,14 @@ for j, model in enumerate(model_names):
     else:
         ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, zorder=3, edgecolor='black')
 
-ax.set_ylabel('Mean JCT', fontsize=30)
+# ax.set_ylabel('Mean JCT', fontsize=30)
+# 设置 y 轴的第一行标签
+ax.set_ylabel('Mean JCT(Normalized)', fontsize=28, labelpad=10)
+
+# 使用 ax.text 添加第二行，并设置字体大小更小
+# ax.text(-0.05, 0.5, r'(Normalized)', fontsize=18, va='center', ha='center', rotation='vertical', fontweight='bold', transform=ax.transAxes)
+
+
 ax.set_xticks(x + width * (num_models - 1) / 2)
 ax.set_xticklabels(['Overall'] + group_names, fontsize=28)
 

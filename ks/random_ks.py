@@ -50,18 +50,18 @@ for cluster_num, c in cluster_info.items():
 
 # 绘制所有cluster的箱线图
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 20})  # 设置字体大小
+plt.rcParams.update({'font.size': 30})  # 设置字体大小
 
-fig, ax = plt.subplots(figsize=(14, 8))
+fig, ax = plt.subplots(figsize=(10, 8))
 
 plt.boxplot(all_p_values, medianprops={'color': 'black', 'linewidth': '1.5'},
             patch_artist=True,
             boxprops={'facecolor': '#add8e6'},
-            widths=0.2,
+            widths=0.4,
             meanline=False,
             showmeans=False,
             flierprops={"marker": "o", "markerfacecolor": "#ffa500", "markersize": 10},
-            labels=[f'Random {n}' for n in range(1,8)])
+            labels=[f'{n}' for n in range(1,8)])
 
 # 添加一条表示 p-value = 0.05 的水平线
 ax.axhline(y=0.000001, color='red', linestyle='--', linewidth=2)
@@ -69,6 +69,7 @@ ax.text(0.05, 0.08, 'y=1e-6', color='red', fontsize=20, transform=ax.transAxes) 
 
 plt.yscale('log')
 plt.ylabel('p-value (log scale)')
+plt.xlabel('Training workload')
 plt.tight_layout()
 plt.savefig('random_ks.pdf', facecolor='white', bbox_inches='tight')
 plt.show()

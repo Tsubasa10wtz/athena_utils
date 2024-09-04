@@ -32,7 +32,7 @@ print("fluid (normalized):", fluid)
 print("ideal (normalized):", ideal)
 
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
+plt.rcParams.update({'font.size': 30})  # 调整字体大小以确保可读性
 fig, ax = plt.subplots(figsize=(10, 8))
 
 # Plot the bar chart
@@ -53,6 +53,7 @@ plt.legend()
 
 ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
 fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+plt.tight_layout()
 plt.savefig('allocation_time.pdf', facecolor='white', bbox_inches='tight')
 
 plt.show()

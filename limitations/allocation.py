@@ -13,7 +13,7 @@ ideal = [100, 230, 0, 0]
 # Names of the approaches and datasets
 approaches = ['Simple', 'Quiver', 'Fluid', 'Ideal']
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
+plt.rcParams.update({'font.size': 30})  # 调整字体大小以确保可读性
 
 # Define custom colors
 custom_colors = ['#4C72B0', '#DD8452', '#55A868', '#C44E52']  # 深蓝色, 橙色, 绿色, 红色
@@ -44,6 +44,8 @@ plt.legend(['Dataset1', 'Dataset2', 'Dataset3', 'Unused'], loc='upper right')
 
 ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
 fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+
+plt.tight_layout()
 plt.savefig('allocation.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
 

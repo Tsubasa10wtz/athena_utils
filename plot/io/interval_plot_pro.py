@@ -23,15 +23,17 @@ for line in lines:
 start_time = data[0][1]
 intervals = [(start - start_time, end - start_time) for _, start, end in data]
 
+plt.style.use("ggplot")
 # 增大字体大小
-plt.rcParams.update({'font.size': 24})
+plt.rcParams.update({'font.size': 26})
 
 # 绘制区间
-fig, ax = plt.subplots(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(10, 8))
 
 # 将每个区间绘制为一个矩形
 for i, (start, end) in enumerate(intervals):
-    rect = patches.Rectangle((start, i - 0.4), end - start, 0.8, edgecolor='blue', facecolor='cyan', alpha=0.5)
+    # rect = patches.Rectangle((start, i - 0.4), end - start, 0.8, edgecolor='blue', facecolor='cyan', alpha=1)
+    rect = patches.Rectangle((start, i - 0.4), end - start, 0.8, edgecolor='blue')
     ax.add_patch(rect)
 
 # 设置图表的限制和标签
@@ -41,7 +43,7 @@ x_max = max(end for start, end in intervals) + 0.01
 ax.set_xlim(x_min, x_max)
 ax.set_ylim(-1, len(intervals))
 ax.set_xlabel('Time(s)')
-ax.set_ylabel('IO Number')
+ax.set_ylabel('IO Request Ordinal')
 # ax.set_title('IO Time Interval Distribution')
 
 # 增大刻度标签的字体大小
@@ -51,7 +53,8 @@ ax.tick_params(axis='both', which='major')
 prefix = './pic'
 save_path = os.path.join(prefix, name) + '.pdf'
 os.makedirs(os.path.dirname(save_path), exist_ok=True)
-plt.savefig(save_path, format='pdf')
+# plt.savefig(save_path, format='pdf')
+plt.tight_layout()
 
 
 # 显示图表

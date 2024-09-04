@@ -56,13 +56,13 @@ fig, ax = plt.subplots(figsize=(50, 12))
 # 绘制每个路径
 for (path, margins) in data_dict.items():
     if path == '/ycsb-1g':
-        path = '/twiiter/cluster035'
+        path = '/twitter/cluster035'
     plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
 
 
 # for (path, margins), color in zip(data_dict.items(), colors):
 #     if path == '/ycsb-1g':
-#         path = '/twiiter/cluster035'
+#         path = '/twitter/cluster035'
 #     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
 
 

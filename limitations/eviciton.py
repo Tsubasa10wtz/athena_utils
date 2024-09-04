@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 
 # Data
-file_types = ["ResNet50+Imagenet", "Twitter Cluster10"]
+file_types = ["ResNet50+ImageNet", "Twitter Cluster10"]
 block_level = [336, 340.2]
 file_level = [230, 367.25]
 plt.style.use("fivethirtyeight")
 
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
+plt.rcParams.update({'font.size': 30})  # 调整字体大小以确保可读性
 
 fig, ax = plt.subplots(figsize=(10, 8))
 # Creating the bar chart
@@ -24,10 +24,12 @@ ax.set_xticklabels(file_types)
 ax.legend()
 
 # Adjusting the xlim to center the bars on the x-axis
-ax.set_xlim(-0.5, len(file_types) - 0.5 + width)
+ax.set_xlim(-0.25, len(file_types) - 0.75 + width)
 
 ax.set_facecolor('white')
 fig.patch.set_facecolor('white')
+
+plt.tight_layout()
 
 # Show the plot
 # plt.show()

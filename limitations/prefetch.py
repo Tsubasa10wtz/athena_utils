@@ -6,12 +6,12 @@ block_level = [28.1, 7.1]
 file_level = [5.2, 35.2]
 plt.style.use("fivethirtyeight")
 
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
+plt.rcParams.update({'font.size': 30})  # 调整字体大小以确保可读性
 
 fig, ax = plt.subplots(figsize=(10, 8))
 # Creating the bar chart
 x = range(len(file_types))
-width = 0.2  # Adjust width to make the bars more compact
+width = 0.25  # Adjust width to make the bars more compact
 
 bars1 = ax.bar(x, block_level, width, label='Block-level prefetching', hatch='//')  # Add hatching
 bars2 = ax.bar([i + width for i in x], file_level, width, label='File-level prefetching', hatch='\\')  # Add hatching
@@ -28,6 +28,8 @@ ax.set_xlim(-0.5, len(file_types) - 0.5 + width)
 
 ax.set_facecolor('white')
 fig.patch.set_facecolor('white')
+
+plt.tight_layout()
 
 # Show the plot
 # plt.show()
