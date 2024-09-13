@@ -4,17 +4,15 @@ import numpy as np
 # 数据
 categories = [
     "Overall",
-    "resnet\nimagenet\ntrain",
-    "resnet\nmitplaces\ntrain",
-    "alex\nimagenet\ntrain",
-    "alex\nmitplaces\ntrain",
-    "spark",
-    "twitter\ncluster035"
+    "ImageNet",
+    "MITPlaces",
+    "Twitter",
+    "TPC-DS",
 ]
-default = np.array([6.3, 23.2, 6.3, 23.2, 6.2, 10.1])
-quiver = np.array([0, 100, 0, 100, 30.4, 0])
-fluid = np.array([50.1, 55.2, 50.1, 55.2, 24.6, 0])
-athena = np.array([15.2, 100, 15.2, 100, 15.1, 14.2])
+athena = np.array([15.2, 100, 14.2, 15.1])
+default = np.array([6.3, 23.2, 10.1, 6.2])
+quiver = np.array([0, 100, 0, 30.4])
+fluid = np.array([50.1, 55.2, 0, 24.6])
 
 # 计算各方法的均值
 default_mean = np.mean(default)
@@ -31,30 +29,33 @@ athena = np.insert(athena, 0, athena_mean)
 bar_width = 0.1  # 条形宽度
 index = np.arange(len(categories))  # 分类标签位置
 
-plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 24})  # 调整字体大小以确保可读性
+fontsize = 28
+legend_fontsize = 22
+figsize = (12, 6)
 
-fig, ax = plt.subplots(figsize=(14, 8))
+plt.style.use("ggplot")
+fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
-# 绘制条形图
-ax.bar(index - 1.5 * bar_width, default, bar_width, label='Default', edgecolor='black')
-ax.bar(index - 0.5 * bar_width, quiver, bar_width, label='Quiver', edgecolor='black')
-ax.bar(index + 0.5 * bar_width, fluid, bar_width, label='Fluid', edgecolor='black')
-ax.bar(index + 1.5 * bar_width, athena, bar_width, label='Athena', edgecolor='black')
+# 按照顺序绘制条形图：Athena, Default, Quiver, Fluid
+ax.bar(index - 1.5 * bar_width, athena, bar_width, label='Athena')
+ax.bar(index - 0.5 * bar_width, default, bar_width, label='JuiceFS')  # Default 第二个
+ax.bar(index + 0.5 * bar_width, quiver, bar_width, label='Quiver')    # Quiver 第三个
+ax.bar(index + 1.5 * bar_width, fluid, bar_width, label='Fluid')      # Fluid 第四个
 
 # 添加标签、标题和自定义x轴刻度标签
-ax.set_ylabel('Cache Hit Ratio')
+ax.set_ylabel('Cache Hit Ratio (%)', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories)  # 调整标签角度以提高可读性
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=15)  # 调整标签角度以提高可读性
+yticks = [int(i) for i in ax.get_yticks() if i <= 100]
+ax.set_ylim(0, 100)
+ax.set_yticks(yticks)
+ax.set_yticklabels(yticks, fontsize=fontsize)
 
-# 设置图例
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=20)
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+           ncol=6, fontsize=legend_fontsize, frameon=False)
 
-# 设置背景色
-ax.set_facecolor('white')
-fig.patch.set_facecolor('white')
-
-# 显示图形
-plt.tight_layout()
+# 显示图形并保存为白色背景的图片
+plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('chr.pdf', facecolor='white', bbox_inches='tight')
 plt.show()

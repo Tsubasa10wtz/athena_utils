@@ -48,10 +48,10 @@ plt.rcParams.update({'font.size': 50})  # 设置字体大小
 # 绘制图表
 fig, ax = plt.subplots(figsize=(50, 12))
 
-for (path, capacities) in capacity_data_dict.items():
+for (path, capacities),color in zip(capacity_data_dict.items(), colors):
     if path == '/ycsb-1g':
-        path = '/twiiter/cluster035'
-    plt.plot(range(1, max_rounds + 1), capacities, label=path, linewidth=5)
+        path = '/twitter/cluster035'
+    plt.plot(range(1, max_rounds + 1), capacities, label=path, linewidth=5, color=color)
 
 plt.xlabel('Round')
 plt.ylabel('Capacity (MB)')
@@ -60,4 +60,6 @@ plt.ylabel('Capacity (MB)')
 plt.grid(True)
 # ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
 # fig.patch.set_facecolor('white')  # 设置整个图形的背景
-plt.savefig('capacity.pdf', facecolor='white', bbox_inches='tight')
+# plt.savefig('capacity.pdf', facecolor='white', bbox_inches='tight')
+
+plt.show()

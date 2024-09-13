@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
-categories = ['Overall', 'imagenet\ntest', 'alex\nmitplaces\ntest', 'gpt2\nloading', 'opt\nloading', 'audio', 'fashion', 'india', 'marine']
-no = np.array([0, 0, 0, 0, 0, 0, 0, 0])
-stride = np.array([16.1, 0, 74.3, 72.5, 0, 0, 52, 0])
-juicefs = np.array([16.1, 0, 78.1, 76.2, 0, 0, 52, 0])
-context = np.array([0, 0, 0, 0, 0, 0, 0, 0])  # 添加context数据
-athena = np.array([96.2, 97.1, 77.3, 74.1, 95.2, 94.1, 65, 99])
+categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
+athena = np.array([96.2, 97.1, 77.3, 95.2, 94.1, 65, 99])
+no = np.array([0, 0, 0, 0, 0, 0, 0])
+stride = np.array([16.1, 0, 74.3, 0, 0, 52, 0])
+juicefs = np.array([16.1, 0, 78.1, 0, 0, 52, 0])
+context = np.array([0, 0, 0, 0, 0, 0, 0])  # 添加context数据
 
 # 计算各方法的均值
 no_mean = np.mean(no)
@@ -27,32 +27,40 @@ juicefs = np.insert(juicefs, 0, juicefs_mean)
 context = np.insert(context, 0, context_mean)  # 插入context均值
 athena = np.insert(athena, 0, athena_mean)
 
-bar_width = 0.10  # 调整条形宽度，增加一个条形
-index = np.arange(len(categories))  # 分类标签位置，调整以包括 'Overall'
+bar_width = 0.1  # 调整条形宽度，增加一个条形
+index = np.arange(len(categories))  # 分类标签位置
 
-plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 22})  # 设置字体大小
+fontsize = 28
+legend_fontsize = 19
+bar_width = 0.1  # 调整条形宽度以适应更多条形
+index = np.arange(len(categories))  # 分类标签位置
+figsize = (12, 6)
 
-fig, ax = plt.subplots(figsize=(14, 8))
+plt.style.use("ggplot")
+fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
-# 绘制条形图
-bar1 = ax.bar(index - 2 * bar_width, no, bar_width, label='No', edgecolor='black')
-bar2 = ax.bar(index - bar_width, stride, bar_width, label='Stride', edgecolor='black')
-bar3 = ax.bar(index, juicefs, bar_width, label='Juicefs', edgecolor='black')
-bar4 = ax.bar(index + bar_width, context, bar_width, label='Context', edgecolor='black')  # 插入context
-bar5 = ax.bar(index + 2 * bar_width, athena, bar_width, label='Athena', edgecolor='black')
+# 按照顺序绘制条形图，顺序：Athena, No-Prefetch, Stride, Juicefs, Context
+bar1 = ax.bar(index - 2 * bar_width, athena, bar_width, label='Athena')
+bar2 = ax.bar(index - bar_width, no, bar_width, label='No-Prefetch')
+bar3 = ax.bar(index, stride, bar_width, label='Stride')
+bar4 = ax.bar(index + bar_width, juicefs, bar_width, label='Juicefs')
+bar5 = ax.bar(index + 2 * bar_width, context, bar_width, label='Context')
 
 # 添加标签、标题和自定义x轴刻度标签
-ax.set_ylabel('Cache Hit Ratio', fontsize=30)
-# ax.set_title('Cache Hit Ratio of Different Prefetching Strategies')
+ax.set_ylabel('Cache Hit Ratio (%)', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=20)  # 调整为45度以便更好地显示标签
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=25)  # 调整为25度以便更好地显示标签
+yticks = [int(i) for i in ax.get_yticks() if i <= 100]
+ax.set_ylim(0, 100)
+ax.set_yticks(yticks)
+ax.set_yticklabels(yticks, fontsize=fontsize)
 
-ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
-plt.gcf().set_facecolor('white')
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=5)
+# 设置图例
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+           ncol=6, fontsize=legend_fontsize, frameon=False)
 
-# 显示图形
-plt.tight_layout()
+# 显示图形并保存为白色背景的图片
+plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('chr.pdf', facecolor='white', bbox_inches='tight')
+plt.show()

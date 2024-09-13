@@ -20,7 +20,7 @@ plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 40})
 
 
-for i in range(54, 55):  # 从cluster001到cluster054
+for i in range(31, 32):  # 从cluster001到cluster054
     # 构建文件路径
     file_path = file_path_template.format(i)
 

@@ -75,9 +75,9 @@ fig, ax = plt.subplots(figsize=(14, 8))
 # 绘制直方图并选择性地添加误差线
 for j, model in enumerate(model_names):
     if model == 'Default':
-        ax.bar(x + j*width, means[:, j], width, label=model, zorder=3, edgecolor='black')
+        ax.bar(x + j*width, means[:, j], width, label=model, zorder=3)
     else:
-        ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, zorder=3, edgecolor='black')
+        ax.bar(x + j*width, means[:, j], width, yerr=errors[:, :, j], capsize=5, label=model, zorder=3)
 
 # ax.set_ylabel('Mean JCT', fontsize=30)
 # 设置 y 轴的第一行标签

@@ -19,10 +19,10 @@ all_p_values = []
 min_p_values={}
 
 
-def triangular_cdf(x, c):
+def triangular_cdf(k, c):
     """三角分布的CDF函数"""
-    return np.where(x < 0, 0, np.where(x > c, 1, ((2 * x * c - x ** 2) / c ** 2)))
-
+    # return np.where(x < 0, 0, np.where(x > c, 1, ((2 * x * c - x ** 2) / c ** 2)))
+    return np.where(k < 0, 0, np.where(k >= c, 1, (1 / c + 2 * k / c - k * (k + 1)/ c**2)))
 
 # 计算每个cluster的p值
 for cluster_num, c in cluster_info.items():

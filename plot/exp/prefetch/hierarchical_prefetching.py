@@ -64,5 +64,5 @@ fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
 
 # plt.title('Comparison of Methods (wo and w)')
 plt.tight_layout()
-plt.savefig('./adaptive_prefetching.pdf', facecolor='white', bbox_inches='tight')
+plt.savefig('./hierarchical_prefetching.pdf', facecolor='white', bbox_inches='tight')
 plt.show()

@@ -46,37 +46,59 @@ for path, margins in data_dict.items():
 plt.style.use("ggplot")
 
 # 创建颜色映射
-cmap = plt.get_cmap('Accent')
+cmap = plt.get_cmap('viridis')
 colors = cmap(np.linspace(0, 1, len(data_dict)))
 
 plt.rcParams.update({'font.size': 50})  # 设置字体大小
 # 绘制图表
 fig, ax = plt.subplots(figsize=(50, 12))
 
-# 绘制每个路径
-for (path, margins) in data_dict.items():
+# 绘制每个路径，应用不同的颜色
+for (path, margins), color in zip(data_dict.items(), colors):
     if path == '/ycsb-1g':
         path = '/twitter/cluster035'
-    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
-
-
-# for (path, margins), color in zip(data_dict.items(), colors):
-#     if path == '/ycsb-1g':
-#         path = '/twitter/cluster035'
-#     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
-
+    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5, color=color)
 
 plt.xlabel('Round')
 plt.ylabel('Margin')
-# plt.title('Margin Changes Across Rounds')
-# 将图例放在右下角
 plt.grid(True)
 
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
+# 显示图例并设置在右下角
+plt.legend(loc='lower right')
+plt.show()
 
-# ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-# fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
-
-plt.yscale('log')
-plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
+# # 创建颜色映射
+# cmap = plt.get_cmap('Accent')
+# colors = cmap(np.linspace(0, 1, len(data_dict)))
+#
+# plt.rcParams.update({'font.size': 50})  # 设置字体大小
+# # 绘制图表
+# fig, ax = plt.subplots(figsize=(50, 12))
+#
+# # 绘制每个路径
+# for (path, margins) in data_dict.items():
+#     if path == '/ycsb-1g':
+#         path = '/twitter/cluster035'
+#     plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
+#
+#
+# # for (path, margins), color in zip(data_dict.items(), colors):
+# #     if path == '/ycsb-1g':
+# #         path = '/twitter/cluster035'
+# #     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+#
+#
+# plt.xlabel('Round')
+# plt.ylabel('Margin')
+# # plt.title('Margin Changes Across Rounds')
+# # 将图例放在右下角
+# plt.grid(True)
+#
+# plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
+#
+# # ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
+# # fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+#
+# plt.yscale('log')
+# plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
 

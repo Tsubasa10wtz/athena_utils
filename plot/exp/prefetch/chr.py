@@ -33,7 +33,7 @@ fig, ax = plt.subplots(figsize=(14, 8))
 # 绘制条形图
 bar1 = ax.bar(index - 1.5 * bar_width, no, bar_width, label='no')
 bar2 = ax.bar(index - 0.5 * bar_width, stride, bar_width, label='stride')
-bar3 = ax.bar(index + 0.5 * bar_width, juicefs, bar_width, label='juicefs')
+bar3 = ax.bar(index + 0.5 * bar_width, juicefs, bar_width, label='JuiceFS')
 bar4 = ax.bar(index + 1.5 * bar_width, athena, bar_width, label='Athena')
 
 # 添加标签、标题和自定义x轴刻度标签

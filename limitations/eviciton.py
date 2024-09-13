@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 
 # Data
-file_types = ["ResNet50+ImageNet", "Twitter Cluster10"]
-block_level = [336, 340.2]
-file_level = [230, 367.25]
+file_types = ["ResNet50+ImageNet", "Twitter Cluster 035"]
+## 25% of dataset size, ImageNet 1/100, twitter first 10w
+LRU = [300, 595]
+uniform = [201, 750]
 plt.style.use("fivethirtyeight")
 
 plt.rcParams.update({'font.size': 30})  # 调整字体大小以确保可读性
@@ -13,8 +14,8 @@ fig, ax = plt.subplots(figsize=(10, 8))
 x = range(len(file_types))
 width = 0.2  # Adjust width to make the bars more compact
 
-bars1 = ax.bar(x, block_level, width, label='LRU Eviction', hatch='//')  # Add hatching
-bars2 = ax.bar([i + width for i in x], file_level, width, label='Uniform Eviction', hatch='\\')  # Add hatching
+bars1 = ax.bar(x, LRU, width, label='LRU Eviction', hatch='//')  # Add hatching
+bars2 = ax.bar([i + width for i in x], uniform, width, label='Uniform Eviction', hatch='\\')  # Add hatching
 
 # Adding labels and title
 ax.set_xlabel('Workloads')

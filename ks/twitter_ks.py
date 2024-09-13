@@ -51,9 +51,9 @@ for cluster_num, c in cluster_info.items():
     data['diff'] = data['sorted_index'].diff().dropna().astype(int).abs()
 
 
-    def triangular_cdf(x, c):
-        return np.where(x < 0, 0, np.where(x > c, 1, ((2 * x * c - x ** 2) / c ** 2)))
-
+    def triangular_cdf(k, c):
+        # return np.where(x < 0, 0, np.where(x > c, 1, ((2 * x * c - x ** 2) / c ** 2)))
+        return np.where(k < 0, 0, np.where(k >= c, 1, (1 / c + 2 * k / c - k * (k + 1) / c ** 2)))
 
     # 初始化 p-value 列表
     p_values = []
