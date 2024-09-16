@@ -54,10 +54,10 @@ diff_list, mean_diff, var_diff = calculate_diff_mean_and_variance(ids)
 print("均值:", mean_diff)
 print("方差:", var_diff)
 
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(12, 6))
 
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 35})
+plt.rcParams.update({'font.size': 33})
 
 
 # 定义以 *10^3 为单位的刻度格式化函数
