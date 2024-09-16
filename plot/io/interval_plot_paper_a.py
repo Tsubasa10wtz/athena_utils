@@ -26,7 +26,7 @@ intervals = [(start - start_time, end - start_time) for _, start, end in data]
 plt.style.use("ggplot")
 # 增大字体大小
 plt.rcParams.update({'font.size': 30})
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 # 绘制区间
 fig, ax = plt.subplots(figsize=(8, 7))
 

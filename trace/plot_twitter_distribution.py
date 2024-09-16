@@ -18,7 +18,7 @@ def thousands(x, pos):
 
 plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 40})
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 for i in range(35, 36):  # 从cluster001到cluster054
     # 构建文件路径

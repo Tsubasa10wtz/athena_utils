@@ -24,7 +24,7 @@ print("方差:", var_diff)
 
 # 绘制差值的分布图
 plt.figure(figsize=(12, 6))
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 33})
 

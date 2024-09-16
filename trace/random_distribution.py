@@ -58,7 +58,7 @@ plt.figure(figsize=(12, 6))
 
 plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 33})
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 # 定义以 *10^3 为单位的刻度格式化函数
 def thousands(x, pos):
