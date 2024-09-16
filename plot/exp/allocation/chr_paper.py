@@ -4,10 +4,10 @@ import numpy as np
 # 数据
 categories = [
     "Overall",
-    "job\u2468",
-    "job\u246C",
-    "job\u246D",
-    "job\u246E",
+    "Job\u2468",
+    "Job\u246C",
+    "Job\u246D",
+    "Job\u246E",
 ]
 athena = np.array([13.2, 89.4, 90.1, 90.2])
 default = np.array([6.3, 23.2, 78.2, 78.3])
@@ -31,7 +31,7 @@ index = np.arange(len(categories))  # 分类标签位置
 
 fontsize = 28
 legend_fontsize = 22
-figsize = (12, 6)
+figsize = (12, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -45,9 +45,9 @@ ax.bar(index + 0.5 * bar_width, quiver, bar_width, label='Quiver')    # Quiver �
 ax.bar(index + 1.5 * bar_width, fluid, bar_width, label='Fluid')      # Fluid 第四个
 
 # 添加标签、标题和自定义x轴刻度标签
-ax.set_ylabel('Cache Hit Ratio (%)', fontsize=fontsize)
+ax.set_ylabel('CHR (%)', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=fontsize, rotation=15)  # 调整标签角度以提高可读性
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整标签角度以提高可读性
 yticks = [int(i) for i in ax.get_yticks() if i <= 100]
 ax.set_ylim(0, 100)
 ax.set_yticks(yticks)

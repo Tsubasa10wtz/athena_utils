@@ -4,10 +4,10 @@ import numpy as np
 # 数据
 categories = [
     "Overall",
-    "job\u2468",
-    "job\u246C",
-    "job\u246D",
-    "job\u246E",
+    "Job\u2468",
+    "Job\u246C",
+    "Job\u246D",
+    "Job\u246E",
 ]
 athena = np.array([172, 58, 1918, 2549])
 default = np.array([198, 159, 2100, 2563])
@@ -37,7 +37,7 @@ index = np.arange(len(categories))  # 分类标签位置
 
 fontsize = 28
 legend_fontsize = 22
-figsize = (12, 6)
+figsize = (12, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -53,7 +53,7 @@ bar4 = ax.bar(index + 1.5 * bar_width, fluid_norm, bar_width, label='Fluid')
 ax.set_ylabel('Normalized JCT', fontsize=fontsize)
 # ax.set_title('JCT Of Different Space Management Solutions')
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=fontsize, rotation=15)  # 调整为15度以便更好地显示标签
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整为15度以便更好地显示标签
 yticks = [float(f"{i:.1f}") for i in ax.get_yticks()]
 ax.set_ylim(0, max(yticks))
 ax.set_yticks(yticks)

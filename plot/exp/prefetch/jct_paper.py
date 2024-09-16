@@ -3,7 +3,7 @@ import numpy as np
 
 # 数据
 # categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
-categories = ['All', 'job\u2460', 'job\u2461', 'job\u2462', 'job\u2463','job\u2465', 'job\u2467', 'job\u246A',  ]
+categories = ['All', 'Job\u2460', 'Job\u2461', 'Job\u2462', 'Job\u2463','Job\u2465', 'Job\u2467', 'Job\u246A',  ]
 athena = np.array([25, 20, 1.2, 9.7, 61, 100, 105,  ])
 no = np.array([36, 83, 2.7, 35.2, 87, 584, 379,  ])
 stride = np.array([36, 81, 1.8, 35.4, 66, 572, 375,  ])
@@ -39,7 +39,7 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-figsize = (12, 6)
+figsize = (12, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -55,7 +55,7 @@ ax.bar(index + 2 * bar_width, context_norm, bar_width, label='SFP')
 # 添加标签、标题和自定义x轴刻度标签
 ax.set_ylabel('Normalized JCT', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=fontsize, rotation=25)  # 调整为25度以便更好地显示标签
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整为25度以便更好地显示标签
 
 yticks = [float(f"{i:.1f}") for i in ax.get_yticks()]
 ax.set_ylim(0, max(yticks))

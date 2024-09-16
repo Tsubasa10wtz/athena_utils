@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
-categories = ['All', "job\u2468", "job\u246C", "job\u246D", "job\u246E"]
+categories = ['All', "Job\u2468", "Job\u246C", "Job\u246D", "Job\u246E"]
 athena = np.array([273, 290, 1741, 48 * 60])
 lru = np.array([344, 352, 1741, 48 * 60])
 fifo = np.array([347, 348, 1765, 48 * 60 + 43])
@@ -39,7 +39,7 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-figsize = (12, 6)
+figsize = (12, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -56,7 +56,7 @@ bar6 = ax.bar(index + 2.5 * bar_width, sieve_norm, bar_width, label='SIEVE', col
 # 添加标签、标题和自定义x轴刻度标签
 ax.set_ylabel('Normalized JCT', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=fontsize, rotation=15)  # 调整为45度以便更好地显示标签
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整为45度以便更好地显示标签
 yticks = [float(f"{i:.1f}") for i in ax.get_yticks()]
 ax.set_ylim(0, max(yticks))
 ax.set_yticks(yticks)

@@ -135,6 +135,6 @@ handles, labels = ax1.get_legend_handles_labels()
 fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.05),
            ncol=max(len(model_names_jct), len(model_names_chr)), fontsize=36, frameon=False)
 
-plt.tight_layout(rect=(0, 0, 1, 0.95))
+plt.tight_layout(rect=(0, 0, 1, 0.92))
 plt.savefig('jct_chr_combined.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
