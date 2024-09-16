@@ -41,9 +41,9 @@ data3[60:1001] = 0
 # plt.plot(time, data1, label="Data1 (~4600)", marker='o')
 # plt.plot(time, data2, label="Data2 (~5300)", marker='x')
 # plt.plot(time, data3, label="Data3 (~10000)", marker='s')
-plt.plot(time, data1, label="MITPlaces with dataset eviction")
-plt.plot(time, data2, label="MITPlaces w/o dataset eviction")
-plt.plot(time, data3, label="ImageNet")
+plt.plot(time, data1, label="Job\u2468, with Dataset Eviction")
+plt.plot(time, data2, label="Job\u246C w/o Dataset Eviction")
+plt.plot(time, data3, label="Job")
 
 # 添加标题和标签
 plt.xlabel("Time (s)")
