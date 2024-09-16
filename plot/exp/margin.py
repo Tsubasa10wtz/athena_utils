@@ -43,21 +43,28 @@ for path, margins in data_dict.items():
     min_nonzero_margin = min(filter(lambda x: x > 0, margins), default=0)
     data_dict[path] = [np.random.uniform(min_nonzero_margin * 0.9, min_nonzero_margin * 1.1) if margin == 0 else margin for margin in margins]
 
-plt.style.use("ggplot")
-
 # 创建颜色映射
-cmap = plt.get_cmap('Accent')
+cmap = plt.get_cmap('viridis')
 colors = cmap(np.linspace(0, 1, len(data_dict)))
-
-plt.rcParams.update({'font.size': 50})  # 设置字体大小
+plt.style.use("fivethirtyeight")  # 使用 fivethirtyeight 风格
+plt.rcParams['font.family'] = 'Arial Unicode MS'
+fontsize = 28
+legend_fontsize = fontsize
+figsize = (16, 6)
+plt.rcParams.update({'font.size': fontsize})  # 设置字体大小
 # 绘制图表
-fig, ax = plt.subplots(figsize=(50, 12))
+fig, ax = plt.subplots(figsize=figsize)
 
 # 绘制每个路径
-for (path, margins) in data_dict.items():
+for (path, margins), color in zip(data_dict.items(), colors):
     if path == '/ycsb-1g':
-        path = '/twiiter/cluster035'
-    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
+        path = '/twitter/cluster035'
+    plt.plot(range(1, max_rounds + 1), margins, label={
+        '/twitter/cluster035': 'Twitter',
+        '/spark-tpcds-data': "TPC-DS",
+        '/ImageNet/train': "ImageNet",
+        '/mit/train': "MITPlaces",
+    }[path], linewidth=2, color=color)
 
 
 # for (path, margins), color in zip(data_dict.items(), colors):
@@ -66,17 +73,19 @@ for (path, margins) in data_dict.items():
 #     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
 
 
-# plt.xlabel('Round')
-plt.ylabel('Margin')
+plt.xlabel('Round')
+plt.ylabel('Marginal Revenue')
 # plt.title('Margin Changes Across Rounds')
 # 将图例放在右下角
 plt.grid(True)
 
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+           ncol=6, fontsize=legend_fontsize, frameon=False)
 
-# ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-# fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
-
+# 显示图形并保存为白色背景的图片
+plt.tight_layout(rect=(0.02, 0, 1, 0.93))
 plt.yscale('log')
 plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
 
+plt.show()

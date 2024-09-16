@@ -104,7 +104,7 @@ means_chr = calculate_means_without_normalization(data_chr, model_names_chr)
 
 # 使用ggplot样式
 plt.style.use('ggplot')
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 # 创建两个子图并排放置
 figsize = (20, 8)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)

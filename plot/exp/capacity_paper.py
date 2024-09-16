@@ -42,22 +42,37 @@ for path in capacity_data_dict:
     round_dict = {round_num: capacity for round_num, capacity in round_capacities}
     capacity_data_dict[path] = [round_dict.get(round_num, 0) for round_num in range(1, max_rounds + 1)]
 
-plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
+plt.style.use("fivethirtyeight")  # 使用 fivethirtyeight 风格
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 
-plt.rcParams.update({'font.size': 50})  # 设置字体大小
+fontsize = 28
+legend_fontsize = fontsize
+figsize = (16, 6)
+plt.rcParams.update({'font.size': fontsize})  # 设置字体大小
 # 绘制图表
-fig, ax = plt.subplots(figsize=(50, 12))
+fig, ax = plt.subplots(figsize=figsize)
 
-for (path, capacities) in capacity_data_dict.items():
+for (path, capacities), color in zip(capacity_data_dict.items(), colors):
     if path == '/ycsb-1g':
-        path = '/twiiter/cluster035'
-    plt.plot(range(1, max_rounds + 1), capacities, label=path, linewidth=5)
+        path = '/twitter/cluster035'
+    plt.plot(range(1, max_rounds + 1), capacities, label={
+        '/twitter/cluster035': 'Twitter',
+        '/spark-tpcds-data': "TPC-DS",
+        '/ImageNet/train': "ImageNet",
+        '/mit/train': "MITPlaces",
+    }[path], linewidth=2, color=color)
 
 plt.xlabel('Round')
 plt.ylabel('Capacity (MB)')
 # plt.title('Capacity Changes Across Rounds in MB')
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+           ncol=6, fontsize=legend_fontsize, frameon=False)
+
+# 显示图形并保存为白色背景的图片
+plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.grid(True)
 # ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
 # fig.patch.set_facecolor('white')  # 设置整个图形的背景
 plt.savefig('capacity.pdf', facecolor='white', bbox_inches='tight')
+plt.show()

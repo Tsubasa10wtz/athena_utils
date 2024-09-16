@@ -18,7 +18,7 @@ def thousands(x, pos):
 
 plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 40})
-
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 for i in range(35, 36):  # 从cluster001到cluster054
     # 构建文件路径
@@ -73,8 +73,8 @@ for i in range(35, 36):  # 从cluster001到cluster054
     print()
 
     # 绘制差值的分布图
-    plt.figure(figsize=(12, 8))
-    plt.rcParams.update({'font.size': 35})
+    plt.figure(figsize=(12, 6))
+    plt.rcParams.update({'font.size': 33})
     plt.hist(data['diff'], bins=30, edgecolor='black')
     formatter = FuncFormatter(thousands)
     # plt.title('Distribution of Differences')

@@ -23,10 +23,10 @@ print("均值:", mean_diff)
 print("方差:", var_diff)
 
 # 绘制差值的分布图
-plt.figure(figsize=(12, 8))
-
+plt.figure(figsize=(12, 6))
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 35})
+plt.rcParams.update({'font.size': 33})
 
 # 定义以 *10^3 为单位的刻度格式化函数
 def thousands(x, pos):
