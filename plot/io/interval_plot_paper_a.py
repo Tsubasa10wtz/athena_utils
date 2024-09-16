@@ -28,7 +28,7 @@ plt.style.use("ggplot")
 plt.rcParams.update({'font.size': 30})
 
 # 绘制区间
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(8, 7))
 
 # 将每个区间绘制为一个矩形
 for i, (start, end) in enumerate(intervals):
@@ -39,8 +39,10 @@ for i, (start, end) in enumerate(intervals):
 x_min = min(start for start, end in intervals) - 0.01
 x_max = max(end for start, end in intervals) + 0.01
 
+print(len(intervals))
+
 ax.set_xlim(x_min, x_max)
-ax.set_ylim(-1, len(intervals))
+ax.set_ylim(-1, 280)
 ax.set_xlabel('Time(s)')
 ax.set_ylabel('IO Request Ordinal')
 ax.set_xlim(0, 2.1)
@@ -61,35 +63,35 @@ for i, (start, end) in enumerate(intervals):
         zoom_start = min(zoom_start, start)
         zoom_end = max(zoom_end, end)
 
-# 如果找到合适的区域，则进行放大显示
-if zoom_start < zoom_end:
-    # 创建嵌套的放大轴
-    ax_inset = ax.inset_axes([0.67, 0.05, 0.28, 0.28])  # 位置参数 [left, bottom, width, height]
+# # 如果找到合适的区域，则进行放大显示
+# if zoom_start < zoom_end:
+#     # 创建嵌套的放大轴
+#     ax_inset = ax.inset_axes([0.67, 0.05, 0.28, 0.28])  # 位置参数 [left, bottom, width, height]
+#
+#     # 在嵌套轴中绘制放大的矩形区域
+#     for i, (start, end) in enumerate(intervals):
+#         if y_min <= i <= y_max:
+#             rect = patches.Rectangle((start, i - 0.4), end - start, 0.8, edgecolor='blue')
+#             ax_inset.add_patch(rect)
+#
+#     # 设置放大区域的 x 和 y 轴范围
+#     ax_inset.set_xlim(zoom_start, zoom_end)
+#     ax_inset.set_ylim(y_min-0.5, y_max-0.5)
+#     # ax_inset.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+#     # 修改嵌套轴的刻度字体大小
+#     ax_inset.tick_params(axis='both', which='major', labelsize=12)  # 这里的 12 可以根据需要调整
+#     ax_inset.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+#
+#     ax_inset.grid(False)
+#
+#     # 在主图上标记出放大区域
+#     # ax.indicate_inset_zoom(ax_inset, linewidth=1, linestyle="-", alpha=1)
+#
+#     for spine in ax_inset.spines.values():
+#         spine.set_linewidth(2)  # 设置放大框的线宽
 
-    # 在嵌套轴中绘制放大的矩形区域
-    for i, (start, end) in enumerate(intervals):
-        if y_min <= i <= y_max:
-            rect = patches.Rectangle((start, i - 0.4), end - start, 0.8, edgecolor='blue')
-            ax_inset.add_patch(rect)
-
-    # 设置放大区域的 x 和 y 轴范围
-    ax_inset.set_xlim(zoom_start, zoom_end)
-    ax_inset.set_ylim(y_min-0.5, y_max-0.5)
-    # ax_inset.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
-    # 修改嵌套轴的刻度字体大小
-    ax_inset.tick_params(axis='both', which='major', labelsize=12)  # 这里的 12 可以根据需要调整
-    ax_inset.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
-
-    ax_inset.grid(False)
-
-    # 在主图上标记出放大区域
-    # ax.indicate_inset_zoom(ax_inset, linewidth=1, linestyle="-", alpha=1)
-
-    for spine in ax_inset.spines.values():
-        spine.set_linewidth(2)  # 设置放大框的线宽
-
-ax.text(1.7, 92, 'Zoomed In View', fontsize=14, color='black',
-        horizontalalignment='center', verticalalignment='center')
+# ax.text(1.7, 92, 'Zoomed In View', fontsize=14, color='black',
+#         horizontalalignment='center', verticalalignment='center')
 
 ## 添加其他图形
 
@@ -108,21 +110,36 @@ ax.add_patch(rect3)
 # # 添加箭头到坐标轴
 # ax.add_patch(arrow11)
 
-ax.text(0.3, 92, 'Batch N I/O', fontsize=24, color='red', fontweight='bold',
+# ax.text(0.3, 92, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
+#         horizontalalignment='center', verticalalignment='center')
+
+ax.text(1.02, 186, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
         horizontalalignment='center', verticalalignment='center')
 
-ax.text(1.02, 183, 'Batch N+1 I/O', fontsize=24, color='red', fontweight='bold',
+# ax.text(1.73, 169, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
+#         horizontalalignment='center', verticalalignment='center')
+
+
+
+# 创建 FancyArrowPatch (起点, 终点)
+arrow1 = patches.FancyArrowPatch((0, 120), (0.68, 120), color='green', linewidth=2, arrowstyle='<->', mutation_scale=20)
+# 添加箭头到坐标轴
+ax.add_patch(arrow1)
+
+# ax.text(2.4, 127, 'Batch Computation', fontsize=24, color='green', fontweight='bold',
+#         horizontalalignment='center', verticalalignment='center')
+
+# 创建 FancyArrowPatch (起点, 终点)
+arrow2 = patches.FancyArrowPatch((0.68, 210), (1.41, 210), color='green', linewidth=2, arrowstyle='<->', mutation_scale=20)
+# 添加箭头到坐标轴
+ax.add_patch(arrow2)
+
+ax.text(1.045, 232, 'Batch\nComputation', fontsize=24, color='green', fontweight='bold',
         horizontalalignment='center', verticalalignment='center')
 
-ax.text(1.73, 169, 'Batch N+2 I/O', fontsize=24, color='red', fontweight='bold',
-        horizontalalignment='center', verticalalignment='center')
 
-
-
-
-plt.tight_layout()
-
-plt.savefig("paper/io_bottleneck.pdf", format='pdf')
+plt.tight_layout(rect=(-0.04, -0.04, 1.04, 1.04))
+plt.savefig("paper/new_io_bottleneck.pdf", format='pdf')
 
 # 显示图表
 plt.show()
