@@ -4,15 +4,15 @@ import numpy as np
 # 数据
 categories = [
     "Overall",
-    "ImageNet",
-    "MITPlaces",
-    "Twitter",
-    "TPC-DS",
+    "job\u2468",
+    "job\u246C",
+    "job\u246D",
+    "job\u246E",
 ]
-athena = np.array([15.2, 100, 14.2, 15.1])
-default = np.array([6.3, 23.2, 10.1, 6.2])
-quiver = np.array([0, 100, 0, 30.4])
-fluid = np.array([50.1, 55.2, 0, 24.6])
+athena = np.array([13.2, 89.4, 90.1, 90.2])
+default = np.array([6.3, 23.2, 78.2, 78.3])
+quiver = np.array([0, 89.3, 0, 91.3])
+fluid = np.array([2.1, 75.3, 86.2, 90.3])
 
 # 计算各方法的均值
 default_mean = np.mean(default)
@@ -34,7 +34,9 @@ legend_fontsize = 22
 figsize = (12, 6)
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
+
 
 # 按照顺序绘制条形图：Athena, Default, Quiver, Fluid
 ax.bar(index - 1.5 * bar_width, athena, bar_width, label='Athena')

@@ -20,7 +20,7 @@ plt.style.use("fivethirtyeight")
 plt.rcParams.update({'font.size': 40})
 
 
-for i in range(31, 32):  # 从cluster001到cluster054
+for i in range(35, 36):  # 从cluster001到cluster054
     # 构建文件路径
     file_path = file_path_template.format(i)
 
@@ -79,7 +79,7 @@ for i in range(31, 32):  # 从cluster001到cluster054
     formatter = FuncFormatter(thousands)
     # plt.title('Distribution of Differences')
     plt.xlabel('Gap (× $10^3$)')
-    plt.ylabel('Frequency (× $10^3$)')
+    plt.ylabel('Count (× $10^3$)')
 
     # 将横纵坐标都设置为以 *10^3 为单位显示
     plt.gca().xaxis.set_major_formatter(formatter)

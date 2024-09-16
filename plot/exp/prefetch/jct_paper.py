@@ -2,12 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
-categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
-athena = np.array([100, 105, 61, 25, 20, 1.2, 9.7])
-no = np.array([584, 379, 87, 36, 83, 2.7, 35.2])
-stride = np.array([572, 375, 66, 36, 81, 1.8, 35.4])
-juicefs = np.array([545, 361, 63, 33, 83, 1.16, 35.1])
-context = np.array([586, 380, 86, 35, 82, 2.7, 36.2])  # 添加新的context数据
+# categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
+categories = ['All', 'job\u2460', 'job\u2461', 'job\u2462', 'job\u2463','job\u2465', 'job\u2467', 'job\u246A',  ]
+athena = np.array([25, 20, 1.2, 9.7, 61, 100, 105,  ])
+no = np.array([36, 83, 2.7, 35.2, 87, 584, 379,  ])
+stride = np.array([36, 81, 1.8, 35.4, 66, 572, 375,  ])
+juicefs = np.array([33, 83, 1.16, 35.1, 63, 545, 361,  ])
+context = np.array([35, 82, 2.7, 36.2, 86, 586, 380,  ])  # 添加新的context数据
 
 # 归一化计算
 no_norm = no / athena
@@ -41,6 +42,7 @@ index = np.arange(len(categories))  # 分类标签位置
 figsize = (12, 6)
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
 # 绘制条形图，按照athena, no, stride, juicefs, context顺序
@@ -48,7 +50,7 @@ ax.bar(index - 2 * bar_width, athena_norm, bar_width, label='Athena')
 ax.bar(index - bar_width, no_norm, bar_width, label='No-Prefetch')
 ax.bar(index, stride_norm, bar_width, label='Stride')
 ax.bar(index + bar_width, juicefs_norm, bar_width, label='JuiceFS')
-ax.bar(index + 2 * bar_width, context_norm, bar_width, label='Context')
+ax.bar(index + 2 * bar_width, context_norm, bar_width, label='SFP')
 
 # 添加标签、标题和自定义x轴刻度标签
 ax.set_ylabel('Normalized JCT', fontsize=fontsize)

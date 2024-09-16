@@ -26,8 +26,9 @@ sieve = np.insert(sieve, 0, sieve_mean)
 
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 rotation = 15
-categories = ['Overall', 'ImageNet', 'MITPlaces', "Twitter", "TPC-DS"]
+categories = ['All', "job\u2468", "job\u246C", "job\u246D", "job\u246E"]
 colors = ['#e24a33', '#348abd', '#988ed5', '#777777', "#fbc15e", "#8eba41", "#ffb4b8"]
 fontsize = 28
 legend_fontsize = 19

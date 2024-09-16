@@ -38,7 +38,7 @@ formatter = FuncFormatter(thousands)
 plt.hist(diff_list, bins=np.linspace(0, 328500, 31), edgecolor='black')
 
 plt.xlabel('Gap (× $10^4$)')
-plt.ylabel('Frequency (× $10^4$)')
+plt.ylabel('Count (× $10^4$)')
 
 
 # 将横纵坐标都设置为以 *10^3 为单位显示

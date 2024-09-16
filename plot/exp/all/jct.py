@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 
-# stride: resnet-imagenet-test	alex-mitpalces-test gpt2_loading	opt_loading 	audio	fashion 	india
+# stride: resnet-imagenet-test	alex-mitplaces-test gpt2_loading	opt_loading 	audio	fashion 	india
 # random: bookcorpus	resnet-imagenet-train	resnet-mitplaces-train	alex-imagenet-train	alex-mitplaces-train
-# hotspot: spark-1g	ycsb
+# hotspot: spark-1g	twitter035
 
 # 定义数据
 data = {

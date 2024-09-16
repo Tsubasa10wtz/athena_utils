@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
-categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
-athena = np.array([96.2, 97.1, 77.3, 95.2, 94.1, 65, 99])
+# categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
+categories = ['All', 'job\u2460', 'job\u2461', 'job\u2462', 'job\u2463', 'job\u2465', 'job\u2467', 'job\u246A',  ]
+athena = np.array([95.2, 94.1, 65, 99, 77.3, 96.2, 97.1,  ])
 no = np.array([0, 0, 0, 0, 0, 0, 0])
-stride = np.array([16.1, 0, 74.3, 0, 0, 52, 0])
-juicefs = np.array([16.1, 0, 78.1, 0, 0, 52, 0])
+stride = np.array([0, 0, 52, 0, 74.3, 16.1, 0,  ])
+juicefs = np.array([0, 0, 52, 0, 78.1, 16.1, 0,  ])
 context = np.array([0, 0, 0, 0, 0, 0, 0])  # 添加context数据
 
 # 计算各方法的均值
@@ -37,14 +38,16 @@ index = np.arange(len(categories))  # 分类标签位置
 figsize = (12, 6)
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
+
 
 # 按照顺序绘制条形图，顺序：Athena, No-Prefetch, Stride, Juicefs, Context
 bar1 = ax.bar(index - 2 * bar_width, athena, bar_width, label='Athena')
 bar2 = ax.bar(index - bar_width, no, bar_width, label='No-Prefetch')
 bar3 = ax.bar(index, stride, bar_width, label='Stride')
 bar4 = ax.bar(index + bar_width, juicefs, bar_width, label='Juicefs')
-bar5 = ax.bar(index + 2 * bar_width, context, bar_width, label='Context')
+bar5 = ax.bar(index + 2 * bar_width, context, bar_width, label='SFP')
 
 # 添加标签、标题和自定义x轴刻度标签
 ax.set_ylabel('Cache Hit Ratio (%)', fontsize=fontsize)

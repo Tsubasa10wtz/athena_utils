@@ -4,15 +4,15 @@ import numpy as np
 # 数据
 categories = [
     "Overall",
-    "ImageNet",
-    "MITPlaces",
-    "Twitter",
-    "TPC-DS",
+    "job\u2468",
+    "job\u246C",
+    "job\u246D",
+    "job\u246E",
 ]
-athena = np.array([152, 58, 1918, 2549])
-default = np.array([178, 159, 2003, 2508])
-quiver = np.array([201, 61, 2034, 2561])
-fluid = np.array([119, 105, 2023, 2563])
+athena = np.array([172, 58, 1918, 2549])
+default = np.array([198, 159, 2100, 2563])
+quiver = np.array([210, 61, 3201, 2561])
+fluid = np.array([192, 105, 2045, 2621])
 
 # 计算均值
 default_mean = np.mean(default / athena)  # default 归一化到自身总是 1
@@ -40,6 +40,7 @@ legend_fontsize = 22
 figsize = (12, 6)
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
 # 按照顺序绘制条形图：Athena, JuiceFS, Quiver, Fluid

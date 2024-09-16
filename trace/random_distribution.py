@@ -69,7 +69,7 @@ formatter = FuncFormatter(thousands)
 # 绘制差值的分布
 plt.hist(diff_list, bins=30, edgecolor='black')  # 50个箱子应该足够细致地展示分布
 plt.xlabel('Gap (× $10^3$)')
-plt.ylabel('Frequency (× $10^3$)')
+plt.ylabel('Count (× $10^3$)')
 
 # 将横纵坐标都设置为以 *10^3 为单位显示
 plt.gca().xaxis.set_major_formatter(formatter)

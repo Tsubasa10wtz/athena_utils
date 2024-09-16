@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 数据
+# categories = ['Overall', 'imagenet\ntest', 'mitplaces\ntest', 'gpt2\nloading', 'opt\nloading', 'audio', 'fashion', 'india']
 categories = ['Overall', 'imagenet\ntest', 'mitplaces\ntest', 'gpt2\nloading', 'opt\nloading', 'audio', 'fashion', 'india']
 no = np.array([584, 379, 87, 89, 36, 83, 2.7])
 stride = np.array([572, 375, 66, 70, 36, 81, 1.8])

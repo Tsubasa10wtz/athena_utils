@@ -36,7 +36,7 @@ for cluster_num, c in cluster_info.items():
 
     # 计算p值
     p_values = []
-    step_size = 50
+    step_size = 10000
     for i in range(0, len(diffs), step_size):
         diff_list = diffs[i:i + step_size]
         if len(diff_list) < step_size:
