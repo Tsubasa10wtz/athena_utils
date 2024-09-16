@@ -1,42 +1,58 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Generate the first sequence from 2048 down to 0, decreasing by 64 each step
-dataset1_wo = np.arange(1024, -64, -64)
+# 生成时间轴数据，单位是秒，从0到1000，每隔1秒
+time = np.arange(0, 1001, 1)
 
-# Generate the second sequence starting from 4096, increasing by 64 each step, with the same length as sequence_1
-dataset2_wo = np.arange(1024, 1024 + 64 * len(dataset1_wo), 64)
+plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
+plt.rcParams.update({'font.size': 23})  # 设置字体大小
+figsize = (10, 6)
 
-# Modify sequence_1 to drop to 0 after it reaches 1920
-dataset1_w = dataset1_wo.copy()
-dataset1_w[dataset1_w <= 768] = 0
+fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
-# Modify sequence_2 to become 4096 + 2048 after it reaches 4224
-dataset2_w = dataset2_wo.copy()
-dataset2_w[dataset2_w >= 1280] = 2048
+# 初始化data1数组
+data1 = np.zeros_like(time, dtype=float)
+# 0-70秒：76.4上下波动5
+data1[0:71] = 76 + (np.random.rand(71) - 0.5) * 6  # 波动范围 ±5
+# 70-306秒：76.4上下波动5
+data1[71:307] = 76 + (np.random.rand(236) - 0.5) * 6  # 波动范围 ±5
+# 306-542秒：80上下波动5
+data1[307:434] = 142 + (np.random.rand(127) - 0.5) * 6  # 波动范围 ±5
+# 542-1000秒：85上下波动5
+data1[434:1001] = 176 + (np.random.rand(567) - 0.5) * 6  # 波动范围 ±5
 
-plt.style.use("fivethirtyeight")
-plt.rcParams.update({'font.size': 14})  # 调整字体大小以确保可读性
-fig, ax = plt.subplots(figsize=(10, 8))
+# 生成其他数据数组，保持与之前相同
+data2 = np.zeros_like(time, dtype=float)
+# 0-70秒：76.4上下波动5
+data2[0:71] = 76 + (np.random.rand(71) - 0.5) * 8  # 波动范围 ±5
+# 70-306秒：76.4上下波动5
+data2[71:779] = 76 + (np.random.rand(708) - 0.5) * 8  # 波动范围 ±5
+# 306-542秒：80上下波动5
+data2[779:906] = 113 + (np.random.rand(127) - 0.5) * 8  # 波动范围 ±5
+# 542-1000秒：85上下波动5
+data2[906:1001] = 176 + (np.random.rand(95) - 0.5) * 8  # 波动范围 ±5
 
-# Plot the sequences with custom dash patterns
-line1, = plt.plot(dataset1_wo, label='dataset1 w/o dataset adaptive eviction', marker='o', markersize=10, linestyle='-')
-line2, = plt.plot(dataset2_wo, label='dataset2 w/o dataset adaptive eviction', marker='o', markersize=10, linestyle='-')
-line3, = plt.plot(dataset1_w, label='dataset1 with dataset adaptive eviction', marker='^', markersize=10, linestyle='--')
-line4, = plt.plot(dataset2_w, label='dataset2 with dataset adaptive eviction', marker='^', markersize=10, linestyle='--')
+data3 = np.zeros_like(time, dtype=float)
+data3[0:60] = 40 + (np.random.rand(60) - 0.5) * 8  # 波动范围 ±5
+data3[60:1001] = 0
 
 
+# 绘制折线图
+# plt.plot(time, data1, label="Data1 (~4600)", marker='o')
+# plt.plot(time, data2, label="Data2 (~5300)", marker='x')
+# plt.plot(time, data3, label="Data3 (~10000)", marker='s')
+plt.plot(time, data1, label="Job\u2468 with Dataset Eviction")
+plt.plot(time, data2, label="Job\u246C w/o Dataset Eviction")
+plt.plot(time, data3, label="Job")
 
-# Adding titles and labels
-plt.xlabel('Round')
-plt.ylabel('Cache Capacity (MB)')
-plt.legend()
-plt.grid(True)
+# 添加标题和标签
+plt.xlabel("Time (s)")
+plt.ylabel("Samples per Second")
 
-ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
+plt.tight_layout(rect=(0, 0, 1, 0.9))
+# 显示图例
+plt.legend(loc='lower right', fontsize=18)
 
-plt.tight_layout()
-plt.savefig('dataset.pdf', facecolor='white', bbox_inches='tight')
-# Show the plot
-plt.show()
+
+plt.savefig('dataset_eviction.pdf', facecolor='white', bbox_inches='tight')
