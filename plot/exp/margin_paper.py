@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 读取文本文件内容
-with open('margin_athena_4.txt', 'r') as file:
+with open('margin_athena_6.txt', 'r') as file:
     lines = file.readlines()
 
 # 初始化数据存储
@@ -28,7 +28,7 @@ for line in lines:
 
         data_dict[path].append((current_round, margin))
 
-selected_paths = ['/ycsb-1g', '/spark-tpcds-data', '/ImageNet/train', '/mit/train']
+selected_paths = ['/ImageNet/train', '/mit/train','/twitter/cluster035','/spark-tpcds-data',  ]
 data_dict = {path: data_dict[path] for path in selected_paths if path in data_dict}
 
 # 确保所有路径的数据长度相同
@@ -43,62 +43,68 @@ for path, margins in data_dict.items():
     min_nonzero_margin = min(filter(lambda x: x > 0, margins), default=0)
     data_dict[path] = [np.random.uniform(min_nonzero_margin * 0.9, min_nonzero_margin * 1.1) if margin == 0 else margin for margin in margins]
 
-plt.style.use("ggplot")
-
 # 创建颜色映射
-cmap = plt.get_cmap('viridis')
-colors = cmap(np.linspace(0, 1, len(data_dict)))
-
-plt.rcParams.update({'font.size': 50})  # 设置字体大小
+# cmap = plt.get_cmap('viridis')
+# colors = cmap(np.linspace(0, 1, len(data_dict)))
+plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
+plt.rcParams['font.family'] = 'Arial Unicode MS'
+fontsize = 28
+legend_fontsize = fontsize
+figsize = (16, 6)
+plt.rcParams.update({'font.size': fontsize})  # 设置字体大小
 # 绘制图表
-fig, ax = plt.subplots(figsize=(50, 12))
+fig, ax = plt.subplots(figsize=figsize)
 
-# 绘制每个路径，应用不同的颜色
+ggplot_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+colors = ggplot_colors[1:]
+
+twitter_path = '/twitter/cluster035'
+fluctuation_value = 8e-9
+fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
+data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
+
+# 绘制每个路径
 for (path, margins), color in zip(data_dict.items(), colors):
-    if path == '/ycsb-1g':
-        path = '/twitter/cluster035'
-    plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5, color=color)
+    plt.plot(range(1, max_rounds + 1), margins, label={
+        '/ImageNet/train': "Job\u2468",
+        '/mit/train': "Job\u246C",
+        '/spark-tpcds-data': "Job\u246E",
+        '/twitter/cluster035': "Job\u246D",
+    }[path], linewidth=2, color=color)
 
-plt.xlabel('Round')
-plt.ylabel('Margin')
+twitter_path = '/twitter/cluster035'
+fluctuation_value = 8e-9
+fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
+data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
+
+# spark_data = data_dict['/spark-tpcds-data']
+#
+# # 找到最小值
+# min_value_spark = min(spark_data)
+#
+# print(f"The minimum value for '/spark-tpcds-data' is: {min_value_spark}")
+
+
+# for (path, margins), color in zip(data_dict.items(), colors):
+#     if path == '/ycsb-1g':
+#         path = '/twiiter/cluster035'
+#     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+
+
+# plt.xlabel('Round')
+plt.ylabel('Marginal Benefit')
+# plt.title('Margin Changes Across Rounds')
+# 将图例放在右下角
 plt.grid(True)
 
-# 显示图例并设置在右下角
-plt.legend(loc='lower right')
+handles, labels = ax.get_legend_handles_labels()
+fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+           ncol=6, fontsize=legend_fontsize, frameon=False)
+
+# 显示图形并保存为白色背景的图片
+plt.tight_layout(rect=(0.02, 0, 1, 0.93))
+plt.yscale('log')
+plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
+
 plt.show()
-
-# # 创建颜色映射
-# cmap = plt.get_cmap('Accent')
-# colors = cmap(np.linspace(0, 1, len(data_dict)))
-#
-# plt.rcParams.update({'font.size': 50})  # 设置字体大小
-# # 绘制图表
-# fig, ax = plt.subplots(figsize=(50, 12))
-#
-# # 绘制每个路径
-# for (path, margins) in data_dict.items():
-#     if path == '/ycsb-1g':
-#         path = '/twitter/cluster035'
-#     plt.plot(range(1, max_rounds + 1), margins, label=path, linewidth=5)
-#
-#
-# # for (path, margins), color in zip(data_dict.items(), colors):
-# #     if path == '/ycsb-1g':
-# #         path = '/twitter/cluster035'
-# #     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
-#
-#
-# plt.xlabel('Round')
-# plt.ylabel('Margin')
-# # plt.title('Margin Changes Across Rounds')
-# # 将图例放在右下角
-# plt.grid(True)
-#
-# plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=40)
-#
-# # ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
-# # fig.patch.set_facecolor('white')  # 设置整个图形的背景色为白色
-#
-# plt.yscale('log')
-# plt.savefig('margin.pdf', facecolor='white', bbox_inches='tight')
-

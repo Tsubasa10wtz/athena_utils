@@ -39,7 +39,8 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-figsize = (12, 4)
+# figsize = (12, 4) # paper size
+figsize = (20, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -57,6 +58,8 @@ ax.set_ylabel('Normalized JCT', fontsize=fontsize)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整为25度以便更好地显示标签
 
+# plt.xticks([])
+
 yticks = [float(f"{i:.1f}") for i in ax.get_yticks()]
 ax.set_ylim(0, max(yticks))
 ax.set_yticks(yticks)
@@ -71,3 +74,12 @@ fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('jct.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
+
+# 归一化后的 Athena 和 Uniform 在 'All' 类别下的值
+athena_all = athena_norm[0]  # 归一化后的 Athena 在 'All' 类别下的值
+juicefs_all = juicefs_norm[0]  # 归一化后的 Uniform 在 'All' 类别下的值
+
+# 计算归一化相对提升
+relative_improvement_all = (juicefs_all - athena_all) / juicefs_all * 100
+
+print(f"在 'All' 类别下，Athena 相较于 Uniform 的归一化相对提升为: {relative_improvement_all:.2f}%")

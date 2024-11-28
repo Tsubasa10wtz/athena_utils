@@ -26,14 +26,15 @@ sieve = np.insert(sieve, 0, sieve_mean)
 
 
 plt.style.use("ggplot")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
 rotation = 15
-categories = ['Overall', 'ImageNet', 'MITPlaces', "Twitter", "TPC-DS"]
+categories = ['All', "Job\u2468", "Job\u246C", "Job\u246D", "Job\u246E"]
 colors = ['#e24a33', '#348abd', '#988ed5', '#777777', "#fbc15e", "#8eba41", "#ffb4b8"]
 fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-figsize = (12, 6)
+figsize = (12, 4)
 
 fig, ax = plt.subplots(figsize=figsize)
 
@@ -47,20 +48,27 @@ bar5 = ax.bar(index + 1.5 * bar_width, uniform, bar_width, label='Uniform')
 bar6 = ax.bar(index + 2.5 * bar_width, sieve, bar_width, label='SIEVE')
 
 # 添加标签、标题和自定义x轴刻度标签
-ax.set_ylabel('Cache Hit Ratio (%)', fontsize=fontsize)
+ax.set_ylabel('CHR (%)', fontsize=fontsize)
 ax.set_xticks(index)
-ax.set_xticklabels(categories, fontsize=fontsize, rotation=15)  # 旋转45度以便更好地显示标签
+ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 旋转45度以便更好地显示标签
 ax.set_ylim(0, 100)
 ax.set_yticks(np.arange(0, 101, 20))  # 设置 y 轴的刻度，每隔10一个刻度，最大到100
 ax.set_yticks(ax.get_yticks())
 ax.set_yticklabels(ax.get_yticks(), fontsize=fontsize)
 
 handles, labels = ax.get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
-           ncol=6, fontsize=legend_fontsize, frameon=False)
+# fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+#            ncol=6, fontsize=legend_fontsize, frameon=False)
 
 
 # 显示图形并保存为白色背景的图片
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('chr.pdf', bbox_inches='tight')
 plt.show()
+
+athena_all = athena[0]
+print(athena_all)
+lhd_all = lhd[0]
+print(lhd_all)
+increase = athena_all - lhd_all
+print(f"Athena 相对于 Uniform 在 'All' 上的增加量: {increase}%")

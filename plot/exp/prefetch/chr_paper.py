@@ -35,7 +35,8 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-figsize = (12, 4)
+# figsize = (12, 4)
+figsize = (20, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
@@ -60,10 +61,17 @@ ax.set_yticklabels(yticks, fontsize=fontsize)
 
 # 设置图例
 handles, labels = ax.get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
-           ncol=6, fontsize=legend_fontsize, frameon=False)
+# fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+#            ncol=6, fontsize=legend_fontsize, frameon=False)
 
 # 显示图形并保存为白色背景的图片
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('chr.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
+
+athena_all = athena[0]
+print(athena_all)
+juicefs_all = juicefs[0]
+print(juicefs_all)
+increase = athena_all - juicefs_all
+print(f"Athena 相对于 Uniform 在 'All' 上的增加量: {increase}%")
