@@ -9,10 +9,15 @@ categories = [
     "Job\u246D",
     "Job\u246E",
 ]
-athena = np.array([13.2, 89.4, 90.1, 90.2])
-default = np.array([6.3, 23.2, 78.2, 78.3])
-quiver = np.array([0, 89.3, 0, 91.3])
-fluid = np.array([2.1, 75.3, 86.2, 90.3])
+# athena = np.array([13.2, 89.4, 90.1, 90.2])
+# default = np.array([6.3, 23.2, 78.2, 78.3])
+# quiver = np.array([0, 89.3, 0, 91.3])
+# fluid = np.array([2.1, 75.3, 86.2, 90.3])
+
+athena = np.array([20.2, 89.4, 90.1, 90.2])
+default = np.array([12.3, 23.2, 78.2, 78.3])
+quiver = np.array([6.5, 89.3, 70.1, 91.3])
+fluid = np.array([10.1, 75.3, 86.2, 90.3])
 
 # 计算各方法的均值
 default_mean = np.mean(default)
@@ -54,8 +59,8 @@ ax.set_yticks(yticks)
 ax.set_yticklabels(yticks, fontsize=fontsize)
 
 handles, labels = ax.get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
-           ncol=6, fontsize=legend_fontsize, frameon=False)
+# fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+#            ncol=6, fontsize=legend_fontsize, frameon=False)
 
 # 显示图形并保存为白色背景的图片
 plt.tight_layout(rect=(0, 0, 1, 0.9))

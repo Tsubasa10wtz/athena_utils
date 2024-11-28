@@ -10,17 +10,17 @@ data = {
     'Sequential': {
         'Athena': [98, 105, 86, 17, 20, 1.1, 9.7],
         'JuiceFS': [508, 339, 88, 33, 83, 1.16, 35.2],
-        'S3': [863, 318, 205, 34, 89, 2.4, 36.9],
+        'No cache': [863, 318, 205, 34, 89, 2.4, 36.9],
     },
     'Random': {
         'Athena': [1320, 75, 59, 74, 58],
         'JuiceFS': [1315, 181, 162, 179, 160],
-        'S3': [3131, 319, 654, 319, 654],
+        'No cache': [3131, 319, 654, 319, 654],
     },
     'Skewed': {
         'Athena': [2400, 1818],
         'JuiceFS': [2508, 2003],
-        'S3': [300*60, 18541],
+        'No cache': [300*60, 18541],
     }
 }
 
@@ -98,3 +98,19 @@ fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('jct.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
+
+juicefs_idx = model_names.index('JuiceFS')
+s3_idx = model_names.index('No cache')
+
+# 获取整体 (Overall) 的归一化均值
+juicefs_overall_mean = means[0, juicefs_idx]
+s3_overall_mean = means[0, s3_idx]
+
+# 计算 JuiceFS 对比 S3 好多少（相对于 S3 的百分比改善）
+improvement = ((s3_overall_mean - juicefs_overall_mean) / s3_overall_mean) * 100
+
+print(s3_overall_mean)
+print(juicefs_overall_mean)
+
+# 输出改善百分比
+print(f"JuiceFS 对比 S3 整体 JCT 提升了 {improvement:.2f}%")

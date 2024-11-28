@@ -57,11 +57,18 @@ ax.set_yticks(ax.get_yticks())
 ax.set_yticklabels(ax.get_yticks(), fontsize=fontsize)
 
 handles, labels = ax.get_legend_handles_labels()
-fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
-           ncol=6, fontsize=legend_fontsize, frameon=False)
+# fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
+#            ncol=6, fontsize=legend_fontsize, frameon=False)
 
 
 # 显示图形并保存为白色背景的图片
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 plt.savefig('chr.pdf', bbox_inches='tight')
 plt.show()
+
+athena_all = athena[0]
+print(athena_all)
+lhd_all = lhd[0]
+print(lhd_all)
+increase = athena_all - lhd_all
+print(f"Athena 相对于 Uniform 在 'All' 上的增加量: {increase}%")

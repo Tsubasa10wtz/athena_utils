@@ -9,9 +9,9 @@ categories = [
     "Job\u246D",
     "Job\u246E",
 ]
-athena = np.array([172, 58, 1918, 2549])
+athena = np.array([162, 58, 1918, 2549])
 default = np.array([198, 159, 2100, 2563])
-quiver = np.array([210, 61, 3201, 2561])
+quiver = np.array([210, 61, 2500, 2561])
 fluid = np.array([192, 105, 2045, 2621])
 
 # 计算均值
