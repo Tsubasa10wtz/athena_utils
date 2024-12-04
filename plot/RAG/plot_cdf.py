@@ -48,22 +48,26 @@ else:
         print(f"Mean of differences: {mean_diff}")
         print(f"Variance of differences: {variance_diff}")
 
-        # 绘制差值的分布图
+        # 计算 CDF 数据
+        sorted_diffs = sorted(diffs)
+        cdf = pd.Series(sorted_diffs).rank(method='first', pct=True).values
+
+        # 绘制 CDF 图
         plt.figure(figsize=(12, 6))
         plt.rcParams.update({'font.size': 33})
 
-        # 绘制直方图
-        plt.hist(diffs, bins=300, edgecolor='black')
+        # 绘制 CDF 曲线
+        plt.plot(sorted_diffs, cdf, drawstyle='steps-post')
 
         # 设置坐标轴标签
         plt.xlabel('Difference')
-        plt.ylabel('Count')
+        plt.ylabel('CDF')
 
         plt.grid(True)
         plt.tight_layout()
 
         # 保存为 PDF 文件
-        plt.savefig('block_diff_distribution.pdf', facecolor='white', bbox_inches='tight')
+        plt.savefig('block_diff_cdf.pdf', facecolor='white', bbox_inches='tight')
 
         # 显示图表
         plt.show()
