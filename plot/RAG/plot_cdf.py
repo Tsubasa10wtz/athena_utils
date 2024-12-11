@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 # 定义文件路径
 file_path = 'filtered_log2.txt'
@@ -49,25 +50,25 @@ else:
         print(f"Variance of differences: {variance_diff}")
 
         # 计算 CDF 数据
-        sorted_diffs = sorted(diffs)
-        cdf = pd.Series(sorted_diffs).rank(method='first', pct=True).values
+        sorted_diffs = np.sort(diffs)  # 按升序排序
+        cdf = np.arange(1, len(sorted_diffs) + 1) / len(sorted_diffs)  # 累积分布百分比
 
         # 绘制 CDF 图
         plt.figure(figsize=(12, 6))
         plt.rcParams.update({'font.size': 33})
 
-        # 绘制 CDF 曲线
-        plt.plot(sorted_diffs, cdf, drawstyle='steps-post')
+        # 使用点绘制 CDF
+        plt.plot(sorted_diffs, cdf, marker='.', linestyle='none')
 
         # 设置坐标轴标签
-        plt.xlabel('Difference')
+        plt.xlabel('Gap')
         plt.ylabel('CDF')
 
         plt.grid(True)
         plt.tight_layout()
 
         # 保存为 PDF 文件
-        plt.savefig('block_diff_cdf.pdf', facecolor='white', bbox_inches='tight')
+        plt.savefig('block_diff_cdf_point.pdf', facecolor='white', bbox_inches='tight')
 
         # 显示图表
         plt.show()

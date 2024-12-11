@@ -1,11 +1,11 @@
 from datetime import datetime
 
 # 定义筛选时间
-filter_time = "2024/12/03 21:10:46"  # 替换为你想筛选的时间
+filter_time = "2024/12/09 14:29:05"  # 替换为你想筛选的时间
 filter_time_obj = datetime.strptime(filter_time, "%Y/%m/%d %H:%M:%S")
 
 # 打开日志文件并读取内容
-with open('read2.log', 'r', encoding='utf-8') as infile:
+with open('crag_3.log', 'r', encoding='utf-8') as infile:
     lines = infile.readlines()
 
 # 筛选出时间晚于指定时间的记录
@@ -20,7 +20,7 @@ for line in lines:
         filtered_lines.append(line)
 
 # 将筛选后的结果保存到一个新文件
-with open('filtered_log2.txt', 'w', encoding='utf-8') as outfile:
+with open('filtered_crag_3.txt', 'w', encoding='utf-8') as outfile:
     outfile.writelines(filtered_lines)
 
 print(f"筛选后的日志已保存到 'filtered_log.txt'")

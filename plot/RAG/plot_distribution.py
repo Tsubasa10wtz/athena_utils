@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 # 定义文件路径
-file_path = 'filtered_log2.txt'
+file_path = 'filtered_crag_3.txt'
 
 # 定义保存结果的列表
 diffs = []
@@ -53,17 +53,17 @@ else:
         plt.rcParams.update({'font.size': 33})
 
         # 绘制直方图
-        plt.hist(diffs, bins=300, edgecolor='black')
+        plt.hist(diffs, bins=100, edgecolor='black')
 
         # 设置坐标轴标签
-        plt.xlabel('Difference')
+        plt.xlabel('Gap')
         plt.ylabel('Count')
 
         plt.grid(True)
         plt.tight_layout()
 
         # 保存为 PDF 文件
-        plt.savefig('block_diff_distribution.pdf', facecolor='white', bbox_inches='tight')
+        # plt.savefig('crag_3_block_diff_distribution.pdf', facecolor='white', bbox_inches='tight')
 
         # 显示图表
         plt.show()
