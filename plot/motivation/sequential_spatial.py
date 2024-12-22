@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
-# 生成 10 段随机打乱的 0-1299 序列
-segments = [np.random.permutation(1300) for _ in range(100)]
-ids = np.concatenate(segments)
+ids = np.arange(0, 1300)
 
 # 计算频次
 # frequency = np.bincount(ids)
@@ -20,11 +19,12 @@ fig, ax1 = plt.subplots(figsize=(14, 6))
 
 # 绘制直方图（左轴）
 ax1.hist(ids, bins=1299, alpha=0.6, label='Count', color='#003a75')  # 默认颜色
-ax1.set_xlabel('IDs', fontsize=44, color='black')  # 黑色字体
-# ax1.set_ylabel('Count', color='black', fontsize=36)  # 黑色字体
+ax1.set_xlabel('IDs', fontsize=36, color='black')  # 黑色字体
+ax1.set_ylabel('Count', color='black', fontsize=36, labelpad=40)  # 黑色字体
 ax1.tick_params(axis='y', labelcolor='black')
 ax1.tick_params(axis='x', labelsize=24, colors='black')  # 黑色刻度
-ax1.set_ylim(0, 100 * 1.1)  # 动态设置直方图的最大范围
+ax1.set_ylim(0, 1 * 1.1)  # 动态设置直方图的最大范围
+ax1.yaxis.set_major_locator(ticker.MultipleLocator(1))  # y 轴每隔 1 显示一个刻度
 
 # 创建右轴（第二个 y 轴）
 ax2 = ax1.twinx()
@@ -55,5 +55,4 @@ ax1.grid(alpha=0.4)
 
 plt.tight_layout()
 # plt.show()
-
-plt.savefig('random_spatial.pdf', facecolor='white', bbox_inches='tight')
+plt.savefig('sequential_spatial.pdf', facecolor='white', bbox_inches='tight')

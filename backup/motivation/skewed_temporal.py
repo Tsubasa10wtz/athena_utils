@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib import ticker
 
 # 定义文件路径
-file_path = 'filtered_triviaqa_diskann.txt'
+file_path = 'filtered_crag_3.txt'
 
 # 定义保存结果的列表
 diffs = []
@@ -53,39 +53,45 @@ else:
         print(f"Mean of differences: {mean_diff}")
         print(f"Variance of differences: {variance_diff}")
 
+        # 累积分布计算
+        sorted_diffs = np.sort(diffs)
+        cdf = np.arange(1, len(sorted_diffs) + 1) / len(sorted_diffs)
+
         # 绘制图表
         fig, ax1 = plt.subplots(figsize=(14, 6))
-
 
         # 绘制直方图（左轴）
         ax1.hist(diffs, bins=367, alpha=0.6, label='Count', color='#003a75')
         ax1.set_xlabel('Gap', fontsize=44, color='black')
-        ax1.set_ylabel('Count', color='black', fontsize=36)
+        # ax1.set_ylabel('Count', color='black', fontsize=36)
         ax1.tick_params(axis='y', labelcolor='black')
         ax1.tick_params(axis='x', labelsize=24, colors='black')
-        # ax1.yaxis.set_major_locator(ticker.MultipleLocator(1250))  # 每隔 1250 一格
-        ax1.set_ylim(0, 130000 * 1.1)  # 动态设置Y轴范围
+        ax1.yaxis.set_major_locator(ticker.MultipleLocator(1250))  # 每隔 20 一格
+        ax1.set_ylim(0, 5000 * 1.1)  # 动态设置Y轴范围
 
-        # 删除右轴和CDF线条部分
-        # 删除创建右侧 Y 轴
-        # ax2 = ax1.twinx()
+        # 创建右轴（第二个 y 轴）
+        ax2 = ax1.twinx()
 
-        # 删除 CDF 绘制
-        # cdf_plot, = ax2.plot(sorted_diffs, cdf, label='CDF', linestyle='-', alpha=0.8, color='#9f0000')
-        # ax2.set_ylabel('CDF', color='black', fontsize=36)
-        # ax2.set_ylim(0, 1.1)  # CDF 固定范围
+        # 绘制 CDF（右轴）
+        cdf_plot, = ax2.plot(sorted_diffs, cdf, label='CDF', linestyle='-', alpha=0.8, color='#9f0000')
+        ax2.set_ylabel('CDF', color='black', fontsize=36)
+        ax2.tick_params(axis='y', labelcolor='black')
+        ax2.set_ylim(0, 1.1)  # CDF 固定范围
 
         # 合并图例
         handles1, labels1 = ax1.get_legend_handles_labels()
-        # handles2, labels2 = ax2.get_legend_handles_labels()
-        # handles = handles1 + [cdf_plot]  # 添加 CDF 的线条句柄
-        # labels = labels1 + ['CDF']      # 添加 CDF 的标签
-        plt.legend(handles1, labels1, loc='upper right', fontsize=28)
+        handles2, labels2 = ax2.get_legend_handles_labels()
+        handles = handles1 + [cdf_plot]
+        labels = labels1 + ['CDF']
+
+        plt.legend(handles, labels, loc='upper right', fontsize=28)
 
         # 修改 X 轴刻度字体
         ax1.tick_params(axis='x', labelsize=30)  # 设置 X 轴刻度字体大小为 16
         # 修改左 Y 轴刻度字体
         ax1.tick_params(axis='y', labelsize=30)  # 设置左 Y 轴刻度字体大小为 16
+        # 修改右 Y 轴刻度字体
+        ax2.tick_params(axis='y', labelsize=30)  # 设置右 Y 轴刻度字体大小为 16
 
         # 添加网格和样式
         ax1.grid(alpha=0.4)

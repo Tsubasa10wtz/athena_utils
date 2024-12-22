@@ -1,26 +1,24 @@
 from datetime import datetime
 
 # 定义筛选时间
-filter_time = "2024/12/09 14:29:05"  # 替换为你想筛选的时间
+filter_time = "2024/12/21 15:16:00"
 filter_time_obj = datetime.strptime(filter_time, "%Y/%m/%d %H:%M:%S")
 
-# 打开日志文件并读取内容
-with open('crag_3.log', 'r', encoding='utf-8') as infile:
-    lines = infile.readlines()
+# 定义筛选关键字
+filter_keyword = "Read Fuse"
 
-# 筛选出时间晚于指定时间的记录
-filtered_lines = []
-for line in lines:
-    # 提取日志中的时间部分
-    log_time_str = line.split()[0] + " " + line.split()[1]  # 获取日期和时间
-    log_time_obj = datetime.strptime(log_time_str, "%Y/%m/%d %H:%M:%S")
+# 打开日志文件逐行处理并保存结果
+with open('triviaqa_diskann_1221.log', 'r', encoding='utf-8') as infile, open('filtered_triviaqa_diskann_1221.txt', 'w', encoding='utf-8') as outfile:
+    for line in infile:
+        try:
+            # 提取日志时间
+            log_time_str = line.split()[0] + " " + line.split()[1]
+            log_time_obj = datetime.strptime(log_time_str, "%Y/%m/%d %H:%M:%S")
 
-    # 如果日志的时间晚于筛选时间，则将该行加入到筛选结果中
-    if log_time_obj > filter_time_obj:
-        filtered_lines.append(line)
+            # 判断时间和关键字是否符合条件
+            if log_time_obj > filter_time_obj and filter_keyword in line:
+                outfile.write(line)
+        except (IndexError, ValueError):
+            continue  # 跳过异常行
 
-# 将筛选后的结果保存到一个新文件
-with open('filtered_crag_3.txt', 'w', encoding='utf-8') as outfile:
-    outfile.writelines(filtered_lines)
-
-print(f"筛选后的日志已保存到 'filtered_log.txt'")
+print("筛选后的日志已保存到 'filtered_triviaqa_diskann.txt'")

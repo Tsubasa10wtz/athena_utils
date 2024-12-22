@@ -3,18 +3,16 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 from matplotlib import ticker
+from collections import Counter
 
 # 定义文件路径
-file_path = 'filtered_crag_3.txt'
-
-# 定义保存结果的列表
-diffs = []
+file_path = 'filtered_triviaqa_diskann.txt'
 
 # 设置绘图样式
 plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
-# 读取 filtered_crag_3.txt 文件
+# 读取 filtered_triviaqa_diskann.txt 文件
 if not os.path.exists(file_path):
     print(f"File not found: {file_path}")
 else:
@@ -22,7 +20,7 @@ else:
     with open(file_path, 'r', encoding='utf-8') as infile:
         lines = infile.readlines()
 
-    # 提取每一行的块编号（Block ID），并计算差值
+    # 提取每一行的块编号（Block ID）
     block_ids = []
 
     for line in lines:
@@ -34,51 +32,50 @@ else:
                 block_id = offset // (4 * 1024 * 1024)  # 计算块编号
                 block_ids.append(block_id)
 
-    sorted_ids = np.sort(block_ids)
-    cdf = np.arange(1, len(sorted_ids) + 1) / len(sorted_ids)
+    block_ids = block_ids[:100000]
 
-    # 绘制图表
-    fig, ax1 = plt.subplots(figsize=(10, 8))
+    # 使用 Counter 统计每个 block_id 的出现次数
+    counter = Counter(block_ids)
 
-    # 绘制直方图（左轴）
-    ax1.hist(block_ids, bins=368, alpha=0.6, label='Frequency Distribution', color='#003a75')
-    ax1.set_xlabel('Gap', fontsize=24, color='black')
-    ax1.set_ylabel('Count', color='black', fontsize=24)
-    ax1.tick_params(axis='y', labelcolor='black')
-    ax1.tick_params(axis='x', labelsize=12, colors='black')
-    ax1.yaxis.set_major_locator(ticker.MultipleLocator(160))
-    ax1.set_ylim(0, 800 * 1.1)  # 动态设置Y轴范围
+    # 将 block_id 按照出现次数从大到小排序
+    sorted_counts = sorted(counter.items(), key=lambda x: x[1], reverse=True)
 
-    # 创建右轴（第二个 y 轴）
-    ax2 = ax1.twinx()
 
-    # 绘制 CDF（右轴）
-    cdf_plot, = ax2.plot(sorted_ids, cdf, label='CDF', linestyle='-', alpha=0.8, color='#9f0000')
-    ax2.set_ylabel('CDF', color='black', fontsize=24)
-    ax2.tick_params(axis='y', labelcolor='black')
-    ax2.set_ylim(0, 1.1)  # CDF 固定范围
 
-    # 合并图例
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    handles = handles1 + [cdf_plot]
-    labels = labels1 + ['CDF']
+    # 提取排序后的 block_id 和对应的出现次数
+    sorted_block_ids, sorted_counts = zip(*sorted_counts)
 
-    plt.legend(handles, labels, loc='upper right', fontsize=20)
+    # 计算 CDF（累积分布函数）
+    total_count = sum(sorted_counts)
+    cdf = np.cumsum(sorted_counts) / total_count
 
-    # 修改 X 轴刻度字体
-    ax1.tick_params(axis='x', labelsize=16)  # 设置 X 轴刻度字体大小为 16
-    # 修改左 Y 轴刻度字体
-    ax1.tick_params(axis='y', labelsize=16)  # 设置左 Y 轴刻度字体大小为 16
-    # 修改右 Y 轴刻度字体
-    ax2.tick_params(axis='y', labelsize=16)  # 设置右 Y 轴刻度字体大小为 16
+    # 计算前 50% 和后 50% 的出现总次数
+    half_index = len(sorted_counts) // 2
+    first_half_sum = sum(sorted_counts[:half_index])  # 前 50% 的总次数
+    second_half_sum = sum(sorted_counts[half_index:])  # 后 50% 的总次数
 
-    # 添加网格和样式
-    ax1.grid(alpha=0.4)
+    # 打印结果
+    print(f"Total count of the first 50% Block IDs: {first_half_sum}")
+    print(f"Total count of the second 50% Block IDs: {second_half_sum}")
 
-    # 调整布局
-    plt.tight_layout()
+    # 绘制 CDF 图
+    plt.figure(figsize=(4, 6))
+    plt.plot(np.arange(len(cdf)) / len(cdf), cdf, marker='o', linestyle='-', color='b')
+
+    # 设置图表标题和标签
+    plt.title('CDF of Block IDs')
+    plt.xlabel('Cumulative Proportion of Block IDs')
+    plt.ylabel('CDF Value')
+
+    # 显示网格
+    plt.grid(True)
+
+    # 调整坐标轴刻度
+    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x*100:.0f}%'))
+    plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+    # 保存图表为 PDF
+    plt.savefig('block_id_cdf.pdf', facecolor='white', bbox_inches='tight')
 
     # 显示图表
     plt.show()
-
