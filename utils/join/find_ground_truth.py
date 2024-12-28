@@ -1,3 +1,4 @@
+# 为了生成含有ground truth文件读取信息的
 import pandas as pd
 
 # 读取两个CSV文件
@@ -17,6 +18,11 @@ grouped_df = (
     .apply(lambda x: list(x.dropna()))  # 聚合为数组，移除 NaN 值
     .reset_index()
 )
+
+# 按照 query_df 的顺序重新排序 grouped_df
+grouped_df = grouped_df.set_index(['query_table', 'query_column']).reindex(
+    query_df.set_index(['query_table', 'query_column']).index
+).reset_index()
 
 # 保存结果到新文件
 grouped_df.to_csv("opendata_join_result_grouped.csv", index=False, encoding="utf-8")

@@ -1,3 +1,4 @@
+import ast
 import os
 
 import numpy as np
@@ -12,6 +13,8 @@ def generate_file_number_map(directory_path):
 
     # 对文件名进行字典序排序
     files.sort()
+
+    print("file sum:", len(files))
 
     # 创建一个字典来保存文件路径到编号的映射
     file_number_map = {}
@@ -30,21 +33,53 @@ def generate_file_number_map(directory_path):
     return file_number_map
 
 
-def extract_column_from_csv_with_pandas(csv_file, column_name):
+def extract_column_from_csv_with_pandas(csv_file, query_col, candidate_col):
     # 使用 pandas 读取 CSV 文件
     df = pd.read_csv(csv_file)
 
-    # 提取指定列的数据
-    column_data = df[column_name]
+    # 初始化合并后的列表
+    merged_list = []
 
-    return column_data
+    # 遍历每一行
+    for _, row in df.iterrows():
+        # 获取 query_table 数据
+        query_table_item = row[query_col]
+
+        # 将 candidate_table 列中的字符串转换为列表
+        candidate_table_items = ast.literal_eval(row[candidate_col])
+
+        # 将 query_table 和 candidate_table 列表中的所有项合并
+        merged_list.append(query_table_item)  # 先添加 query_table_item
+        merged_list.extend(candidate_table_items)  # 然后添加所有 candidate_table_items
+
+    return merged_list
 
 
 def map_column_data_to_numbers(column_data, file_number_map):
+    # # 将列数据映射为编号
+    # mapped_data = [file_number_map.get(item, None) for item in column_data]
+    #
+    # return mapped_data
+
+    # 记录被映射为 None 的项及其索引
+    none_items = []
+
     # 将列数据映射为编号
-    mapped_data = [file_number_map.get(item, None) for item in column_data]
+    mapped_data = []
+    for idx, item in enumerate(column_data):
+        mapped_value = file_number_map.get(item, None)
+        if mapped_value is None:
+            none_items.append((idx, item))  # 记录索引和原始值
+        mapped_data.append(mapped_value)
+
+    # 打印出所有被映射为 None 的项
+    if none_items:
+        print("Mapped to None:")
+        for index, item in none_items:
+            print(f"Index: {index}, Item: {item}")
 
     return mapped_data
+
 
 
 def calculate_absolute_differences(mapped_data):
@@ -55,20 +90,20 @@ def calculate_absolute_differences(mapped_data):
 
 
 # 设置目标目录路径
-directory_path = "/Users/wangtianze/Downloads/tables"
+directory_path = "/Users/wangtianze/直博/项目/Athena/athena/utils/union/data"
 
 # 生成文件路径到编号的映射
 file_number_map = generate_file_number_map(directory_path)
 
 # 示例 CSV 文件路径
-csv_file_path = '/Users/wangtianze/Downloads/opendata_join_query.csv'
-column_name = 'query_table'
+csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/utils/union/opendata_union_result_grouped.csv'
 
 # 提取指定列的数据
-column_data = extract_column_from_csv_with_pandas(csv_file_path, column_name)
+data = extract_column_from_csv_with_pandas(csv_file_path,  'query_table', 'candidate_table')
+
 
 # 按编号映射列数据
-mapped_data = map_column_data_to_numbers(column_data, file_number_map)
+mapped_data = map_column_data_to_numbers(data, file_number_map)
 
 # 计算相邻项之间的绝对差值
 differences = calculate_absolute_differences(mapped_data)
@@ -77,13 +112,16 @@ differences = calculate_absolute_differences(mapped_data)
 # print("Mapped Data:", mapped_data)
 # print("Differences:", differences)
 
+print("max difference:", max(differences))
+
+
 diffs = differences
 
 fig, ax1 = plt.subplots(figsize=(14, 6))
 
 # 绘制直方图（左轴）
 
-bins = np.arange(0, 500, 3)
+bins = np.arange(0, 5829, 3)
 
 ax1.hist(diffs, bins=bins, alpha=0.6, label='Count', color='#003a75')
 ax1.set_xlabel('Gap', fontsize=44, color='black')
@@ -91,7 +129,7 @@ ax1.set_ylabel('Count', color='black', fontsize=44)
 ax1.tick_params(axis='y', labelcolor='black')
 ax1.tick_params(axis='x', labelsize=24, colors='black')
 # ax1.yaxis.set_major_locator(ticker.MultipleLocator(1250))  # 每隔 1250 一格
-ax1.set_ylim(0, 2000 * 1.1)  # 动态设置Y轴范围
+ax1.set_ylim(0, 6000 * 1.1)  # 动态设置Y轴范围
 
 # 删除右轴和CDF线条部分
 # 删除创建右侧 Y 轴

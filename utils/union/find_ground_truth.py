@@ -1,0 +1,30 @@
+# 为了生成含有ground truth文件读取信息的
+import pandas as pd
+
+# 读取两个CSV文件
+query_df = pd.read_csv("/Users/wangtianze/Downloads/opendata_union_query.csv")  # 替换为你的查询表文件名
+ground_truth_df = pd.read_csv("/Users/wangtianze/Downloads/opendata_union_ground_truth.csv")  # 替换为你的真值表文件名
+
+# 合并两个表，根据 query_table 和 query_column 找到匹配的 candidate_table
+merged_df = query_df.merge(
+    ground_truth_df,
+    how="left",  # 左连接，保留 query_df 的所有行
+    on=["query_table"]  # 依据这两列进行匹配
+)
+
+# 将相同的 query_table 和 query_column 的匹配 candidate_table 聚合为数组
+grouped_df = (
+    merged_df.groupby(["query_table"])["candidate_table"]
+    .apply(lambda x: list(x.dropna()))  # 聚合为数组，移除 NaN 值
+    .reset_index()
+)
+
+# 按照 query_df 的顺序重新排序 grouped_df
+grouped_df = grouped_df.set_index(['query_table']).reindex(
+    query_df.set_index(['query_table']).index
+).reset_index()
+
+# 保存结果到新文件
+grouped_df.to_csv("opendata_union_result_grouped.csv", index=False, encoding="utf-8")
+
+print("文件已保存为 opendata_union_result_grouped.csv")
