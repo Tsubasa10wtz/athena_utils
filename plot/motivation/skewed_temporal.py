@@ -56,11 +56,13 @@ else:
         # 绘制图表
         fig, ax1 = plt.subplots(figsize=(14, 6))
 
+        bins = np.arange(0, 367, 3)
+
 
         # 绘制直方图（左轴）
-        ax1.hist(diffs, bins=367, alpha=0.6, label='Count', color='#003a75')
+        ax1.hist(diffs, bins=bins, alpha=0.6, label='Count', color='#003a75')
         ax1.set_xlabel('Gap', fontsize=44, color='black')
-        ax1.set_ylabel('Count', color='black', fontsize=36)
+        ax1.set_ylabel('Count', color='black', fontsize=44)
         ax1.tick_params(axis='y', labelcolor='black')
         ax1.tick_params(axis='x', labelsize=24, colors='black')
         # ax1.yaxis.set_major_locator(ticker.MultipleLocator(1250))  # 每隔 1250 一格

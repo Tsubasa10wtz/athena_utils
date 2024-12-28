@@ -27,16 +27,19 @@ def thousands(x, pos):
 plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
+bins = np.arange(0, 1299, 10)
+
 fig, ax1 = plt.subplots(figsize=(14, 6))
 
+
 # 绘制直方图（左轴）
-ax1.hist(diff_list, bins=1, alpha=0.6, label='Count', color='#003a75')  # 默认颜色
-ax1.set_xlabel('Gap', fontsize=36, color='black')  # 黑色字体
-ax1.set_ylabel('Count', color='black', fontsize=36)  # 黑色字体
+ax1.hist(diff_list, bins=bins, alpha=0.6, label='Count', color='#003a75')  # 默认颜色
+ax1.set_xlabel('Gap', fontsize=44, color='black')  # 黑色字体
+ax1.set_ylabel('Count', color='black', fontsize=44)  # 黑色字体
 ax1.tick_params(axis='y', labelcolor='black')
 ax1.tick_params(axis='x', labelsize=24, colors='black')  # 黑色刻度
 ax1.yaxis.set_major_locator(ticker.MultipleLocator(350))  # 每隔 350 一格
-ax1.set_ylim(0, 1400 * 1.1)  # 直方图的最大范围同步
+ax1.set_ylim(0, 1300 * 1.1)  # 直方图的最大范围同步
 
 ax1.set_xlim(-50, 1300)  # 直方图的最大范围同步
 

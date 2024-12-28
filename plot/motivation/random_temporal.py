@@ -30,13 +30,16 @@ plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 fig, ax1 = plt.subplots(figsize=(14, 6))
 
+bins = np.arange(0, 1299, 10)
+
 # 绘制直方图（左轴）
-ax1.hist(diff_list, bins=1299, alpha=0.6, label='Count', color='#003a75')  # 默认颜色
+ax1.hist(diff_list, bins=bins, alpha=0.6, label='Count', color='#003a75')  # 默认颜色
 ax1.set_xlabel('Gap', fontsize=44, color='black')  # 黑色字体
+ax1.set_ylabel('Count', color='black', fontsize=44)  # 黑色字体
 ax1.tick_params(axis='y', labelcolor='black')
 ax1.tick_params(axis='x', labelsize=24, colors='black')  # 黑色刻度
-ax1.yaxis.set_major_locator(ticker.MultipleLocator(60))  # 每隔 60 一格
-ax1.set_ylim(0, 240 * 1.1)  # 直方图的最大范围同步
+ax1.yaxis.set_major_locator(ticker.MultipleLocator(500))  # 每隔 60 一格
+ax1.set_ylim(0, 2000 * 1.1)  # 直方图的最大范围同步
 ax1.set_xlim(-50, 1300)  # 直方图的最大范围同步
 
 # 删除右轴和CDF线条部分

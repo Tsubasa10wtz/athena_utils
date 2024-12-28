@@ -1,0 +1,61 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from collections import Counter
+from matplotlib import ticker
+
+# 创建一个连续的 ids 数组
+ids = np.arange(0, 1300)
+
+# 设置绘图样式
+plt.style.use("fivethirtyeight")
+plt.rcParams['font.family'] = 'Arial Unicode MS'
+
+# 使用 Counter 统计每个 ID 的出现次数
+counter = Counter(ids)
+
+# 将 ID 按照出现次数从大到小排序
+sorted_counts = sorted(counter.items(), key=lambda x: x[1], reverse=True)
+
+# 提取排序后的 IDs 和对应的出现次数
+sorted_ids, sorted_counts = zip(*sorted_counts)
+
+# 计算 CDF（累积分布函数）
+total_count = sum(sorted_counts)
+cdf = np.cumsum(sorted_counts) / total_count
+
+# 计算前 50% 和后 50% 的出现总次数
+half_index = len(sorted_counts) // 2
+first_half_sum = sum(sorted_counts[:half_index])  # 前 50% 的总次数
+second_half_sum = sum(sorted_counts[half_index:])  # 后 50% 的总次数
+
+# 打印结果
+print(f"Total count of the first 50% IDs: {first_half_sum}")
+print(f"Total count of the second 50% IDs: {second_half_sum}")
+
+# 绘制 CDF 图
+plt.figure(figsize=(10, 6))
+plt.plot(np.arange(len(cdf)) / len(cdf), cdf, linestyle='-', color='r')
+
+# 设置图表标题和标签
+# plt.title('CDF of IDs')
+plt.xlabel('Ratio of Item', fontsize=30)
+plt.ylabel('CDF', fontsize=30)
+
+# 设置 x 轴和 y 轴的刻度字体大小
+plt.tick_params(axis='x', labelsize=20)  # x 轴刻度字体大小
+plt.tick_params(axis='y', labelsize=20)  # y 轴刻度字体大小
+
+# 显示网格
+plt.grid(True)
+
+# 调整坐标轴刻度
+plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x*100:.0f}%'))
+plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+plt.tight_layout()
+
+# 保存图表为 PDF
+plt.savefig('sequential_cdf.pdf', facecolor='white', bbox_inches='tight')
+
+# 显示图表
+plt.show()
