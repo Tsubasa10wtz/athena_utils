@@ -1,8 +1,10 @@
 import ast
 import os
+
+import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib import ticker
+from matplotlib import pyplot as plt, ticker
+
 
 def generate_file_number_map(directory_path):
     # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
@@ -52,6 +54,11 @@ def extract_column_from_csv_with_pandas(csv_file, query_col, candidate_col):
 
 
 def map_column_data_to_numbers(column_data, file_number_map):
+    # # 将列数据映射为编号
+    # mapped_data = [file_number_map.get(item, None) for item in column_data]
+    #
+    # return mapped_data
+
     # 记录被映射为 None 的项及其索引
     none_items = []
 
@@ -72,77 +79,61 @@ def map_column_data_to_numbers(column_data, file_number_map):
     return mapped_data
 
 
+
 def calculate_absolute_differences(mapped_data):
     # 计算相邻项之间的绝对差值
     differences = [abs(mapped_data[i] - mapped_data[i - 1]) for i in range(1, len(mapped_data))]
+
     return differences
 
+def plot_cdf(ids):
+    # 统计每个block_id出现的次数
+    id_counts = pd.Series(ids).value_counts()
 
-def count_and_fill_missing_files(directory_path, item_counts):
-    # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
-    files = [f for f in os.listdir(directory_path) if
-             os.path.isfile(os.path.join(directory_path, f)) and f != '.DS_Store']
+    print(sum(id_counts))
 
-    # 将文件列表转换为 pandas 的 Series，并用 0 填补缺失的项
-    file_series = pd.Series(files)
+    # 统计出现次数的分布，即每个count有多少个id
+    frequency_counts = id_counts.value_counts().sort_index()
 
-    # 使用 reindex() 方法，将文件列表与 item_counts 对齐，缺失的项填为 0
-    filled_counts = item_counts.reindex(file_series, fill_value=0)
+    # 计算CDF
+    cdf = frequency_counts.cumsum() / frequency_counts.sum()
 
-    # 按照出现次数从大到小排序
-    sorted_filled_counts = filled_counts.sort_values(ascending=False)
+    # 打印一些统计信息（可选）
+    print(cdf)
 
-    return sorted_filled_counts
-
-
-def plot_cdf(sorted_filled_counts):
-    # 计算累计出现次数
-    cumulative_counts = sorted_filled_counts.cumsum()
-
-    # 计算总的出现次数
-    total_counts = cumulative_counts.iloc[-1]
-
-    # 计算累计出现次数占总数的比例
-    cdf_values = cumulative_counts / total_counts
-
-    # 计算文件比率
-    file_count = len(sorted_filled_counts)
-    file_ratios = (pd.Series(range(1, file_count + 1))) / file_count  # 使用整数序列
-
-    # 绘制 CDF 图
+    # 设置绘图样式
     plt.style.use("fivethirtyeight")
     plt.rcParams['font.family'] = 'Arial Unicode MS'  # 确保支持中文字体
+
+    # 绘制CDF
     plt.figure(figsize=(10, 6))
-    plt.plot(file_ratios, cdf_values, marker='.', linestyle='-', color='b')
-    plt.xlabel('Ratio of Files')
+    plt.plot(cdf.index, cdf.values, marker='.', linestyle='-')
+    plt.xlabel('Count')
     plt.ylabel('CDF')
     plt.grid(True)
 
-    # 设置x轴主刻度为整数，并指定间隔
-    plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))  # 设置每0.1显示一个刻度
-    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x:.1f}'))  # 格式化为小数点后一位
+    # 设置x轴主刻度为整数
+    plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
-    # 显示图表
     plt.tight_layout()
     plt.show()
 
+
+
 # 设置目标目录路径
-directory_path = "/Users/wangtianze/直博/项目/Athena/athena/utils/join/data"
+directory_path = "/Users/wangtianze/直博/项目/Athena/athena/lakebench/join/data"
 
 # 生成文件路径到编号的映射
 file_number_map = generate_file_number_map(directory_path)
 
 # 示例 CSV 文件路径
-csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/utils/join/opendata_join_result_grouped.csv'
+csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/lakebench/join/opendata_join_result_grouped.csv'
 
 # 提取指定列的数据
-data = extract_column_from_csv_with_pandas(csv_file_path, 'query_table', 'candidate_table')
+data = extract_column_from_csv_with_pandas(csv_file_path,  'query_table', 'candidate_table')
 
-# 使用 pandas 统计每个项的出现次数
-item_counts = pd.Series(data).value_counts()
 
-# 对缺失的文件进行填充，未出现的文件计数为 0
-sorted_filled_counts = count_and_fill_missing_files(directory_path, item_counts)
+# 按编号映射列数据
+mapped_data = map_column_data_to_numbers(data, file_number_map)
 
-# 绘制 CDF
-plot_cdf(sorted_filled_counts)
+plot_cdf(mapped_data)

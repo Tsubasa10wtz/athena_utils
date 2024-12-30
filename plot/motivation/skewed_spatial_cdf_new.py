@@ -49,6 +49,8 @@ else:
         # 计算CDF
         cdf = frequency_counts.cumsum() / frequency_counts.sum()
 
+        cdf = pd.concat([pd.Series({0: 0}), cdf])
+
         # 打印一些统计信息（可选）
         print(cdf)
 

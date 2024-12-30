@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 from matplotlib import ticker
 
-plt.style.use("fivethirtyeight")
+# plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 # 生成 10 段随机打乱的 0-1299 序列
@@ -33,18 +33,18 @@ print(f"Total count of the first 50% IDs: {first_half_sum}")
 print(f"Total count of the second 50% IDs: {second_half_sum}")
 
 # 绘制 CDF 图
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(14, 6))
 
-plt.plot(np.arange(len(cdf)) / len(cdf), cdf, linestyle='-', color='r')
+plt.plot(np.arange(len(cdf)) / len(cdf), cdf, marker='.', linestyle='-', color='b')
 
 # 设置图表标题和标签
 # plt.title('CDF of IDs')
-plt.xlabel('Ratio of Item', fontsize=30)
-plt.ylabel('CDF', fontsize=30)
+plt.xlabel('Ratio of Item', fontsize=44)
+plt.ylabel('CDF', fontsize=44)
 
 # 设置 x 轴和 y 轴的刻度字体大小
-plt.tick_params(axis='x', labelsize=20)  # x 轴刻度字体大小
-plt.tick_params(axis='y', labelsize=20)  # y 轴刻度字体大小
+plt.tick_params(axis='x', labelsize=24)  # x 轴刻度字体大小
+plt.tick_params(axis='y', labelsize=24)  # y 轴刻度字体大小
 
 # 显示网格
 plt.grid(True)
@@ -52,6 +52,9 @@ plt.grid(True)
 # 调整坐标轴刻度
 plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x*100:.0f}%'))
 plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x*100:.0f}%'))
+plt.gca().yaxis.set_major_locator(ticker.MultipleLocator(0.2))
 
 plt.tight_layout()
 

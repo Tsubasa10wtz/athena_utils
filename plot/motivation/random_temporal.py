@@ -25,7 +25,7 @@ def thousands(x, pos):
     return f'{x * 1e-3:,.0f}'
 
 # 绘制图表
-plt.style.use("fivethirtyeight")
+# plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 fig, ax1 = plt.subplots(figsize=(14, 6))
@@ -39,7 +39,7 @@ ax1.set_ylabel('Count', color='black', fontsize=44)  # 黑色字体
 ax1.tick_params(axis='y', labelcolor='black')
 ax1.tick_params(axis='x', labelsize=24, colors='black')  # 黑色刻度
 ax1.yaxis.set_major_locator(ticker.MultipleLocator(500))  # 每隔 60 一格
-ax1.set_ylim(0, 2000 * 1.1)  # 直方图的最大范围同步
+ax1.set_ylim(0, 2200 * 1.1)  # 直方图的最大范围同步
 ax1.set_xlim(-50, 1300)  # 直方图的最大范围同步
 
 # 删除右轴和CDF线条部分

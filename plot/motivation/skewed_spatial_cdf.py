@@ -59,8 +59,8 @@ else:
     print(f"Total count of the second 50% Block IDs: {second_half_sum}")
 
     # 绘制 CDF 图
-    plt.figure(figsize=(10, 6))
-    plt.plot(np.arange(len(cdf)) / len(cdf), cdf, linestyle='-', color='r')
+    plt.figure(figsize=(14, 6))
+    plt.plot(np.arange(len(cdf)) / len(cdf), cdf, linestyle='-', color='b')
 
     # 设置图表标题和标签
     # plt.title('CDF of Block IDs')

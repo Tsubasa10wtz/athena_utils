@@ -24,7 +24,7 @@ def thousands(x, pos):
     return f'{x * 1e-3:,.0f}'
 
 # 绘制图表
-plt.style.use("fivethirtyeight")
+# plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 bins = np.arange(0, 1299, 10)
