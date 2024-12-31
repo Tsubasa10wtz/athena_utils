@@ -1,34 +1,7 @@
-import ast
 import csv
 import os
 import shutil
 import pandas as pd
-
-
-def generate_file_number_map(directory_path):
-    # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
-    files = [f for f in os.listdir(directory_path) if
-             os.path.isfile(os.path.join(directory_path, f)) and f != '.DS_Store']
-
-    # 对文件名进行字典序排序
-    files.sort()
-
-    # 创建一个字典来保存文件路径到编号的映射
-    file_number_map = {}
-
-    # 遍历排序后的文件列表并为每个文件分配编号
-    for idx, file_name in enumerate(files, start=1):
-        # 获取文件的完整路径
-        file_path = os.path.join(directory_path, file_name)
-
-        # 去除路径前缀（假设你不需要 '/Users/wangtianze/Downloads/tables/' 前缀）
-        relative_path = file_path.replace(directory_path, "").lstrip(os.sep)
-
-        # 将文件路径映射到编号
-        file_number_map[relative_path] = idx
-
-    return file_number_map
-
 
 
 def extract_column_from_csv_with_pandas(csv_file, query_col, candidate_col):
@@ -74,7 +47,7 @@ def generate_csv_files_from_sample(sample_file_path, directory_path, unique_data
 # 设置目标目录路径
 directory_path = "data"
 
-# 示例 CSV 文件路径
+# 从opendata_join_ground_truth.csv就可以得到所有文件（后续通过list(set(data))过滤），为了和find_ground_truth.py生成文件的功能分开
 csv_file_path = '/Users/wangtianze/Downloads/opendata_join_ground_truth.csv'
 
 with open(csv_file_path, newline='', encoding='utf-8') as file:
@@ -96,4 +69,4 @@ unique_data = list(set(data))
 print(f"unique length: {len(unique_data)}")
 
 # 基于 sample.csv 生成多个目标文件
-# generate_csv_files_from_sample(sample_file_path, directory_path, unique_data)
+generate_csv_files_from_sample(sample_file_path, directory_path, unique_data)
