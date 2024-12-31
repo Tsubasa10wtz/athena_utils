@@ -1,6 +1,5 @@
+# 仅仅生成一个含有全部文件名的txt文件
 import csv
-import os
-import shutil
 import pandas as pd
 
 
@@ -26,30 +25,10 @@ def extract_column_from_csv_with_pandas(csv_file, query_col, candidate_col):
     return merged_list
 
 
-
-def generate_csv_files_from_sample(sample_file_path, directory_path, unique_data):
-    # 确保目录存在
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-
-    # 复制 sample.csv 文件并命名为 unique_data 中的每个值
-    for item in unique_data:
-        # 定义目标文件路径
-        new_file_path = os.path.join(directory_path, item)
-
-        # 复制文件并重命名
-        shutil.copy(sample_file_path, new_file_path)
-
-        print(f"File {new_file_path} created successfully.")
-
-
-
-# 设置目标目录路径
-directory_path = "data"
-
 # 示例 CSV 文件路径
-csv_file_path = '/Users/wangtianze/Downloads/opendata_union_ground_truth.csv'
+csv_file_path = '/Users/wangtianze/Downloads/opendata_join_ground_truth.csv'
 
+# 统计行数
 with open(csv_file_path, newline='', encoding='utf-8') as file:
     reader = csv.reader(file)
     row_count = sum(1 for row in reader)
@@ -61,12 +40,15 @@ data = extract_column_from_csv_with_pandas(csv_file_path, 'query_table', 'candid
 
 print(f"data length: {len(data)}")
 
-# 创建一个目标大小的 sample.csv 文件
-sample_file_path = "sample.csv"
-
-# 获取唯一的数据
+# 获取唯一数据
 unique_data = list(set(data))
 print(f"unique length: {len(unique_data)}")
 
-# 基于 sample.csv 生成多个目标文件
-generate_csv_files_from_sample(sample_file_path, directory_path, unique_data)
+# 写入 TXT 文件
+output_txt_file_name = "filename_list.txt"
+
+with open(output_txt_file_name, "w", encoding="utf-8") as file:
+    for item in unique_data:
+        file.write(f"{item}\n")
+
+print(f"Unique data has been written to {output_txt_file_name}")

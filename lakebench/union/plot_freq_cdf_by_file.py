@@ -4,10 +4,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 
-def generate_file_number_map(directory_path):
+def generate_file_number_map(filename_list_path):
     # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
-    files = [f for f in os.listdir(directory_path) if
-             os.path.isfile(os.path.join(directory_path, f)) and f != '.DS_Store']
+    with open(filename_list_path, "r", encoding="utf-8") as file:
+        # 逐行读取文件内容并去掉换行符
+        files = [line.strip() for line in file]
 
     # 对文件名进行字典序排序
     files.sort()
@@ -17,14 +18,9 @@ def generate_file_number_map(directory_path):
 
     # 遍历排序后的文件列表并为每个文件分配编号
     for idx, file_name in enumerate(files, start=1):
-        # 获取文件的完整路径
-        file_path = os.path.join(directory_path, file_name)
-
-        # 去除路径前缀（假设你不需要 '/Users/wangtianze/Downloads/tables/' 前缀）
-        relative_path = file_path.replace(directory_path, "").lstrip(os.sep)
 
         # 将文件路径映射到编号
-        file_number_map[relative_path] = idx
+        file_number_map[file_name] = idx
 
     return file_number_map
 
@@ -80,8 +76,9 @@ def calculate_absolute_differences(mapped_data):
 
 def count_and_fill_missing_files(directory_path, item_counts):
     # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
-    files = [f for f in os.listdir(directory_path) if
-             os.path.isfile(os.path.join(directory_path, f)) and f != '.DS_Store']
+    with open(filename_list_path, "r", encoding="utf-8") as file:
+        # 逐行读取文件内容并去掉换行符
+        files = [line.strip() for line in file]
 
     # 将文件列表转换为 pandas 的 Series，并用 0 填补缺失的项
     file_series = pd.Series(files)
@@ -110,30 +107,40 @@ def plot_cdf(sorted_filled_counts):
     file_ratios = (pd.Series(range(1, file_count + 1))) / file_count  # 使用整数序列
 
     # 绘制 CDF 图
-    plt.style.use("fivethirtyeight")
+    # plt.style.use("fivethirtyeight")
     plt.rcParams['font.family'] = 'Arial Unicode MS'  # 确保支持中文字体
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(14, 6))
     plt.plot(file_ratios, cdf_values, marker='.', linestyle='-', color='b')
-    plt.xlabel('Ratio of Files')
-    plt.ylabel('CDF')
+    plt.xlabel('Ratio of Item', fontsize=44)
+    plt.ylabel('CDF', fontsize=44)
     plt.grid(True)
 
-    # 设置x轴主刻度为整数，并指定间隔
-    plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))  # 设置每0.1显示一个刻度
-    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x:.1f}'))  # 格式化为小数点后一位
+    # 设置 x 轴和 y 轴的刻度字体大小
+    plt.tick_params(axis='x', labelsize=24)  # x 轴刻度字体大小
+    plt.tick_params(axis='y', labelsize=24)  # y 轴刻度字体大小
+
+    # 调整坐标轴刻度
+    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x * 100:.0f}%'))
+    plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+    plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x * 100:.0f}%'))
+    plt.gca().yaxis.set_major_locator(ticker.MultipleLocator(0.2))
 
     # 显示图表
     plt.tight_layout()
+
+    plt.savefig('skewed_cdf.pdf', facecolor='white', bbox_inches='tight')
+
     plt.show()
 
 # 设置目标目录路径
-directory_path = "/Users/wangtianze/直博/项目/Athena/athena/utils/union/data"
+filename_list_path = "/Users/wangtianze/直博/项目/Athena/athena/lakebench/union/filename_list.txt"
 
 # 生成文件路径到编号的映射
-file_number_map = generate_file_number_map(directory_path)
+file_number_map = generate_file_number_map(filename_list_path)
 
 # 示例 CSV 文件路径
-csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/utils/union/opendata_union_result_grouped.csv'
+csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/lakebench/union/opendata_union_result_grouped.csv'
 
 # 提取指定列的数据
 data = extract_column_from_csv_with_pandas(csv_file_path, 'query_table', 'candidate_table')
@@ -142,7 +149,8 @@ data = extract_column_from_csv_with_pandas(csv_file_path, 'query_table', 'candid
 item_counts = pd.Series(data).value_counts()
 
 # 对缺失的文件进行填充，未出现的文件计数为 0
-sorted_filled_counts = count_and_fill_missing_files(directory_path, item_counts)
+sorted_filled_counts = count_and_fill_missing_files(filename_list_path, item_counts)
 
 # 绘制 CDF
 plot_cdf(sorted_filled_counts)
+

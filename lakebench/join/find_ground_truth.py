@@ -1,7 +1,7 @@
 # 为了生成含有ground truth文件读取信息的
 import pandas as pd
 
-# 读取两个CSV文件
+# 读取两个CSV文件, 文件下载路径github:rl/lakebench(vldb'24)
 query_df = pd.read_csv("/Users/wangtianze/Downloads/opendata_join_query.csv")  # 替换为你的查询表文件名
 ground_truth_df = pd.read_csv("/Users/wangtianze/Downloads/opendata_join_ground_truth.csv")  # 替换为你的真值表文件名
 

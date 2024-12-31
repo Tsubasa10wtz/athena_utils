@@ -6,10 +6,11 @@ import pandas as pd
 from matplotlib import pyplot as plt, ticker
 
 
-def generate_file_number_map(directory_path):
+def generate_file_number_map(filename_list_path):
     # 获取目录中的所有文件（不包括子目录）并排除 .DS_Store
-    files = [f for f in os.listdir(directory_path) if
-             os.path.isfile(os.path.join(directory_path, f)) and f != '.DS_Store']
+    with open(filename_list_path, "r", encoding="utf-8") as file:
+        # 逐行读取文件内容并去掉换行符
+        files = [line.strip() for line in file]
 
     # 对文件名进行字典序排序
     files.sort()
@@ -19,14 +20,9 @@ def generate_file_number_map(directory_path):
 
     # 遍历排序后的文件列表并为每个文件分配编号
     for idx, file_name in enumerate(files, start=1):
-        # 获取文件的完整路径
-        file_path = os.path.join(directory_path, file_name)
-
-        # 去除路径前缀（假设你不需要 '/Users/wangtianze/Downloads/tables/' 前缀）
-        relative_path = file_path.replace(directory_path, "").lstrip(os.sep)
 
         # 将文件路径映射到编号
-        file_number_map[relative_path] = idx
+        file_number_map[file_name] = idx
 
     return file_number_map
 
@@ -121,27 +117,19 @@ def plot_cdf(ids):
 
 
 # 设置目标目录路径
-directory_path = "/Users/wangtianze/直博/项目/Athena/athena/utils/union/data"
+filename_list_path = "/Users/wangtianze/直博/项目/Athena/athena/lakebench/union/filename_list.txt"
 
 # 生成文件路径到编号的映射
-file_number_map = generate_file_number_map(directory_path)
+file_number_map = generate_file_number_map(filename_list_path)
 
 # 示例 CSV 文件路径
-csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/utils/union/opendata_union_result_grouped.csv'
+csv_file_path = '/Users/wangtianze/直博/项目/Athena/athena/lakebench/union/opendata_union_result_grouped.csv'
 
 # 提取指定列的数据
 data = extract_column_from_csv_with_pandas(csv_file_path,  'query_table', 'candidate_table')
 
-# 使用 pandas 统计每个项的出现次数
-item_counts = pd.Series(data).value_counts()
-
-# 按出现次数从大到小排序并输出
-print("Item counts (sorted from high to low):")
-print(item_counts)
-
 
 # 按编号映射列数据
 mapped_data = map_column_data_to_numbers(data, file_number_map)
-
 
 plot_cdf(mapped_data)
