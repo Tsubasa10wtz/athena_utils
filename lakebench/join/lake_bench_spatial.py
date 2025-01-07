@@ -102,7 +102,7 @@ def plot_cdf(ids):
     plt.rcParams['font.family'] = 'Arial Unicode MS'  # 确保支持中文字体
 
     # 绘制CDF
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(14, 6))
     plt.plot(cdf.index, cdf.values, marker='.', linestyle='-')
     plt.xlabel('Count')
     plt.ylabel('CDF')

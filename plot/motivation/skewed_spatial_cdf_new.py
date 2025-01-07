@@ -55,11 +55,16 @@ else:
         print(cdf)
 
         # 绘制CDF
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(14, 6))
         plt.plot(cdf.index, cdf.values, marker='.', linestyle='-')
-        plt.xlabel('Count')
-        plt.ylabel('CDF')
+        plt.xlabel('Count', fontsize=30)
+        plt.ylabel('CDF', fontsize=30)
         plt.grid(True)
+
+        plt.tick_params(axis='x', labelsize=20)  # x 轴刻度字体大小
+        plt.tick_params(axis='y', labelsize=20)  # y 轴刻度字体大小
+
+
 
         # 设置x轴主刻度为整数
         plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))

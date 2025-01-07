@@ -11,7 +11,7 @@ file_path = 'filtered_triviaqa_diskann.txt'
 diffs = []
 
 # 设置绘图样式
-plt.style.use("fivethirtyeight")
+# plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 # 读取 filtered_crag_3.txt 文件

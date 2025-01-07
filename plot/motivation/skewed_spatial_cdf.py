@@ -9,7 +9,7 @@ from collections import Counter
 file_path = 'filtered_triviaqa_diskann.txt'
 
 # 设置绘图样式
-plt.style.use("fivethirtyeight")
+# plt.style.use("fivethirtyeight")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
 # 读取 filtered_triviaqa_diskann.txt 文件
@@ -60,7 +60,7 @@ else:
 
     # 绘制 CDF 图
     plt.figure(figsize=(14, 6))
-    plt.plot(np.arange(len(cdf)) / len(cdf), cdf, linestyle='-', color='b')
+    plt.plot(np.arange(len(cdf)) / len(cdf), cdf, marker='.', linestyle='-', color='b')
 
     # 设置图表标题和标签
     # plt.title('CDF of Block IDs')

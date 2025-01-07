@@ -58,12 +58,14 @@ for i in range(101, 111):
 
 
 # 绘制 CDF
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(14, 6))
 plt.plot(cdf.index, cdf.values, linestyle='-')
-plt.xlabel('Count')
-plt.ylabel('CDF')
-# plt.title('ID 出现次数的累积分布函数')
+plt.xlabel('Count', fontsize=30)
+plt.ylabel('CDF', fontsize=30)
 plt.grid(True)
+
+plt.tick_params(axis='x', labelsize=20)  # x 轴刻度字体大小
+plt.tick_params(axis='y', labelsize=20)  # y 轴刻度字体大小
 
 
 ax = plt.gca()
