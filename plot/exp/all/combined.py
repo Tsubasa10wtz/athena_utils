@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
 # 数据1：JCT，包含S3
 data_jct = {
@@ -9,14 +10,14 @@ data_jct = {
         'No cache': [863, 318, 205, 34, 89, 2.4, 36.9],
     },
     'Random': {
-        'Athena': [1320, 75, 59, 74, 58],
-        'JuiceFS': [1315, 181, 162, 179, 160],
-        'No cache': [3131, 319, 654, 319, 654],
+        'Athena': [1320, 101, 66, 101, 66, 60],
+        'JuiceFS': [1315, 181, 162, 179, 160, 60],
+        'No cache': [3131, 319, 654, 319, 654, 80],
     },
     'Skewed': {
-        'Athena': [2400, 1818],
-        'JuiceFS': [2508, 2003],
-        'No cache': [300*60, 18541],
+        'Athena': [702, 592, 3905, 3689],
+        'JuiceFS': [903, 810, 4500, 4200],
+        'No cache': [4800, 5001, 480*5, 25000],
     }
 }
 
@@ -27,12 +28,14 @@ data_chr = {
         'JuiceFS': [16.1, 0, 76.2, 0, 0, 52, 0],
     },
     'Random': {
-        'Athena': [96.2, 35.2, 100, 35.2, 100],
-        'JuiceFS': [97.1, 5.6, 20.6, 5.6, 20.6],
+        'Athena': [48.1, 50.2, 100, 50.2, 100],
+        'JuiceFS': [45.9, 5.6, 20.6, 5.6, 20.6],
     },
     'Skewed': {
-        'Athena': [70.1, 88.2],
-        'JuiceFS': [60.3, 70.2],
+        'Athena': [78.1, 88.2, 79.1, 79.1],
+        'JuiceFS': [40.3, 50.2, 37.2, 34.2],
+        # 'Athena': [70.1, 88.2],
+        # 'JuiceFS': [60.3, 70.2],
     }
 }
 
@@ -105,6 +108,14 @@ means_chr = calculate_means_without_normalization(data_chr, model_names_chr)
 # 使用ggplot样式
 plt.style.use('ggplot')
 plt.rcParams['font.family'] = 'Arial Unicode MS'
+plt.rcParams.update({
+    'text.color': 'black',         # 所有文本颜色
+    'axes.labelcolor': 'black',    # 坐标轴标签颜色
+    'xtick.color': 'black',        # x 轴刻度颜色
+    'ytick.color': 'black',        # y 轴刻度颜色
+    'axes.titlecolor': 'black',    # 坐标轴标题颜色
+    'legend.labelcolor': 'black',  # 图例标签字体颜色
+})
 # 创建两个子图并排放置
 figsize = (20, 8)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
@@ -114,12 +125,15 @@ x = np.arange(len(group_names) + 1)
 
 # 画第一个图表（JCT），包含S3，带误差线
 for j, model in enumerate(model_names_jct):
-    ax1.bar(x + j*width, means_jct[:, j], width, yerr=errors_jct[:, :, j], capsize=5, label=model, zorder=3)
+    ax1.bar(x + j*width, means_jct[:, j], width, capsize=5, label=model, zorder=3)
 
 ax1.set_ylabel('Avg. Normalized JCT', fontsize=40)
 ax1.set_xticks(x + width * (len(model_names_jct) - 1) / 2)
 ax1.set_xticklabels(['All'] + group_names, fontsize=36, rotation=15)
 ax1.tick_params(axis='y', labelsize=36)  # 调整 y 轴刻度字体大小
+ax1.set_ylim(0, 7)  # 设置 y 轴范围为 0 到 1.5
+ax1.set_yticks(np.arange(0, 7, 2))  # 设置刻度间隔为 0.3
+
 
 # 画第二个图表（CHR），不带误差线，使用原始数据
 for j, model in enumerate(model_names_chr):
@@ -130,11 +144,38 @@ ax2.set_xticks(x + width * (len(model_names_chr) - 1) / 2)
 ax2.set_xticklabels(['All'] + group_names, fontsize=36, rotation=15)
 ax2.tick_params(axis='y', labelsize=36)  # 调整 y 轴刻度字体大小
 
+ax2.set_ylim(0, 110)  # 设置 y 轴范围为 0 到 1.5
+ax2.set_yticks(np.arange(0, 101, 20))  # 设置刻度间隔为 0.3
+
 # 设置共享图例
 handles, labels = ax1.get_legend_handles_labels()
 fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.05),
-           ncol=max(len(model_names_jct), len(model_names_chr)), fontsize=36, frameon=False)
+           ncol=max(len(model_names_jct), len(model_names_chr)), fontsize=40, frameon=False)
 
 plt.tight_layout(rect=(0, 0, 1, 0.92))
 plt.savefig('jct_chr_combined.pdf', facecolor='white', bbox_inches='tight')
 plt.show()
+
+
+# 计算All中Athena相对于JuiceFS的提升
+# JCT提升（百分比）
+jct_athena_all = means_jct[0, 0]  # All中Athena的JCT均值
+jct_juicefs_all = means_jct[0, 1]  # All中JuiceFS的JCT均值
+jct_s3_all = means_jct[0, 2]
+print(jct_athena_all, jct_juicefs_all, jct_s3_all)
+
+print((jct_s3_all - jct_juicefs_all) / jct_s3_all)
+
+
+jct_improvement = (jct_juicefs_all - jct_athena_all) / jct_juicefs_all * 100
+
+# CHR提升（百分比）
+chr_athena_all = means_chr[0, 0]  # All中Athena的CHR均值
+chr_juicefs_all = means_chr[0, 1]  # All中JuiceFS的CHR均值
+chr_improvement = (chr_athena_all - chr_juicefs_all)
+
+print(chr_athena_all)
+
+# 输出结果
+print(f"Athena 相对于 JuiceFS 在 JCT 上的提升: {jct_improvement:.2f}%")
+print(f"Athena 相对于 JuiceFS 在 CHR 上的提升: {chr_improvement:.2f}%")

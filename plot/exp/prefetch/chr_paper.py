@@ -35,11 +35,27 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-# figsize = (12, 4)
-figsize = (20, 4)
+figsize = (12, 4)
+# figsize = (20, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
+colors = ['#e0543c', '#3989ba', '#998fd2']
+hatches = ['/', '\\', '', '-', '+', 'x' 'O', '.', '*']
+plt.rcParams['font.family'] = 'Arial Unicode MS'
+plt.rcParams.update({
+    'text.color': 'black',         # 所有文本颜色
+    'axes.labelcolor': 'black',    # 坐标轴标签颜色
+    'xtick.color': 'black',        # x 轴刻度颜色
+    'ytick.color': 'black',        # y 轴刻度颜色
+    'axes.titlecolor': 'black',    # 坐标轴标题颜色
+    'legend.labelcolor': 'black',  # 图例标签字体颜色
+    'axes.facecolor': 'white',     # 坐标轴背景色为白色
+    'figure.facecolor': 'white',   # 整体图像背景色为白色
+    'grid.color': 'gray',          # 网格线颜色
+    'grid.linestyle': '--',        # 网格线样式
+    'grid.alpha': 0.5              # 网格线透明度
+})
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
 
@@ -55,9 +71,10 @@ ax.set_ylabel('CHR (%)', fontsize=fontsize)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, fontsize=fontsize, rotation=0)  # 调整为25度以便更好地显示标签
 yticks = [int(i) for i in ax.get_yticks() if i <= 100]
-ax.set_ylim(0, 100)
+ax.set_ylim(0, 110)
 ax.set_yticks(yticks)
 ax.set_yticklabels(yticks, fontsize=fontsize)
+
 
 # 设置图例
 handles, labels = ax.get_legend_handles_labels()

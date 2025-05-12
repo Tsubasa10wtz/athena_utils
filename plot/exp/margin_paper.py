@@ -28,7 +28,9 @@ for line in lines:
 
         data_dict[path].append((current_round, margin))
 
-selected_paths = ['/ImageNet/train', '/mit/train','/twitter/cluster035','/spark-tpcds-data',  ]
+
+# selected_paths = ['/ImageNet/train', '/mit/train','/LakeBench_join', '/RAG_small', ]
+selected_paths = ['/ImageNet/train', '/mit/train','/spark-tpcds-data', '/twitter/cluster035', ]
 data_dict = {path: data_dict[path] for path in selected_paths if path in data_dict}
 
 # 确保所有路径的数据长度相同
@@ -46,9 +48,9 @@ for path, margins in data_dict.items():
 # 创建颜色映射
 # cmap = plt.get_cmap('viridis')
 # colors = cmap(np.linspace(0, 1, len(data_dict)))
-plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
+# plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
 plt.rcParams['font.family'] = 'Arial Unicode MS'
-fontsize = 28
+fontsize = 32
 legend_fontsize = fontsize
 figsize = (16, 6)
 plt.rcParams.update({'font.size': fontsize})  # 设置字体大小
@@ -57,50 +59,45 @@ fig, ax = plt.subplots(figsize=figsize)
 
 ggplot_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
-colors = ggplot_colors[1:]
-
-twitter_path = '/twitter/cluster035'
-fluctuation_value = 8e-9
-fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
-data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
+# colors = ggplot_colors[1:]
+colors = ['#e0543c', '#3989ba', '#998fd2', '#67c1a6']
 
 # 绘制每个路径
-for (path, margins), color in zip(data_dict.items(), colors):
-    plt.plot(range(1, max_rounds + 1), margins, label={
-        '/ImageNet/train': "Job\u2468",
-        '/mit/train': "Job\u246C",
-        '/spark-tpcds-data': "Job\u246E",
-        '/twitter/cluster035': "Job\u246D",
-    }[path], linewidth=2, color=color)
+# for (path, capacities), color in zip(data_dict.items(), colors):
+#     plt.plot(range(1, max_rounds + 1), capacities, label={
+#         '/ImageNet/train': "Job\u2468",
+#         '/mit/train': "Job\u246C",
+#         '/LakeBench_join': "Job\u246D",
+#         '/RAG_small': "Job\u246F",
+#     }[path], linewidth=3, color=color)
 
 twitter_path = '/twitter/cluster035'
 fluctuation_value = 8e-9
 fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
 data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
 
-# spark_data = data_dict['/spark-tpcds-data']
-#
-# # 找到最小值
-# min_value_spark = min(spark_data)
-#
-# print(f"The minimum value for '/spark-tpcds-data' is: {min_value_spark}")
 
-
-# for (path, margins), color in zip(data_dict.items(), colors):
-#     if path == '/ycsb-1g':
-#         path = '/twiiter/cluster035'
-#     plt.plot(range(1, max_rounds + 1), margins, label=path, color=color)
+for (path, capacities), color in zip(data_dict.items(), colors):
+    plt.plot(range(1, max_rounds + 1), capacities, label={
+        '/ImageNet/train': "Job\u2468",
+        '/mit/train': "Job\u246C",
+        '/spark-tpcds-data': "Job\u246D",
+        '/twitter/cluster035': "Job\u246F",
+    }[path], linewidth=3, color=color)
 
 
 # plt.xlabel('Round')
 plt.ylabel('Marginal Benefit')
 # plt.title('Margin Changes Across Rounds')
 # 将图例放在右下角
-plt.grid(True)
+# plt.grid(True)
 
 handles, labels = ax.get_legend_handles_labels()
+# 调整图例线条的宽度
+for handle in handles:
+    handle.set_linewidth(3)  # 将图例线条的宽度设置为4
 fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 1.),
-           ncol=6, fontsize=legend_fontsize, frameon=False)
+           ncol=6, fontsize=36, frameon=False)
 
 # 显示图形并保存为白色背景的图片
 plt.tight_layout(rect=(0.02, 0, 1, 0.93))

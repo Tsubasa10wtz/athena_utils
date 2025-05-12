@@ -1,11 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
 # 生成时间轴数据，单位是秒，从0到1000，每隔1秒
 time = np.arange(0, 1001, 1)
 
-plt.style.use("ggplot")
+# plt.style.use("ggplot")
+colors = ['#e0543c', '#3989ba', '#998fd2', '#777777', '#fac369']
 plt.rcParams['font.family'] = 'Arial Unicode MS'
+plt.rcParams.update({
+    'text.color': 'black',
+    'axes.labelcolor': 'black',
+    'xtick.color': 'black',
+    'ytick.color': 'black',
+    'axes.titlecolor': 'black',
+    'legend.labelcolor': 'black',
+    'axes.facecolor': 'white',
+    'figure.facecolor': 'white',
+    'grid.color': 'gray',
+    'grid.linestyle': '--',
+    'grid.alpha': 0.5
+})
 plt.rcParams.update({'font.size': 23})  # 设置字体大小
 figsize = (10, 6)
 
@@ -46,17 +61,30 @@ data3[60:1001] = 0
 # plt.plot(time, data1, label="Data1 (~4600)", marker='o')
 # plt.plot(time, data2, label="Data2 (~5300)", marker='x')
 # plt.plot(time, data3, label="Data3 (~10000)", marker='s')
-plt.plot(time, data1, label="Job\u246C with Dataset Eviction")
-plt.plot(time, data2, label="Job\u246C w/o Dataset Eviction")
-plt.plot(time, data3, label="Job\u2468")
+# 添加网格
+# 仅保留 y 轴网格线
+ax.grid(axis='y', zorder=0)
+
+# 更新三条折线的线型
+plt.plot(time, data1, label="Job\u246C with Dataset Eviction", color=colors[0], linestyle='-', linewidth=2)
+plt.plot(time, data2, label="Job\u246C w/o Dataset Eviction", color=colors[1], linestyle='--', linewidth=2)
+plt.plot(time, data3, label="Job\u2468", color=colors[2], linestyle='-.', linewidth=2)
 
 # 添加标题和标签
-plt.xlabel("Time (s)")
-plt.ylabel("Samples per Second")
+plt.xlabel("Time (s)", fontsize=32)
+plt.ylabel("Samples per Second", fontsize=32)
+
+plt.tick_params(axis='x', labelsize=28)
+plt.tick_params(axis='y', labelsize=28)
+
+ax.set_ylim(-10, 200)
+ax.yaxis.set_major_locator(ticker.MultipleLocator(50))
 
 plt.tight_layout(rect=(0, 0, 1, 0.9))
 # 显示图例
-plt.legend(loc='lower right', fontsize=18, bbox_to_anchor=(1, 0.05))
+plt.legend(loc='lower right', fontsize=18, bbox_to_anchor=(1, 0.03))
 
 
 plt.savefig('dataset_eviction.pdf', facecolor='white', bbox_inches='tight')
+
+plt.show()

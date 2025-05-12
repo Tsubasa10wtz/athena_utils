@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt, ticker
 
 
 def generate_file_number_map(filename_list_path):
@@ -82,6 +82,52 @@ def calculate_absolute_differences(mapped_data):
 
     return differences
 
+def plot_cdf(ids):
+    # 统计每个block_id出现的次数
+    id_counts = pd.Series(ids).value_counts()
+
+    print(sum(id_counts))
+
+    # 统计出现次数的分布，即每个count有多少个id
+    frequency_counts = id_counts.value_counts().sort_index()
+
+    # 在 0 处添加一个值为 0 的条目
+    frequency_counts.loc[0] = 0
+    frequency_counts = frequency_counts.sort_index()  # 确保索引顺序正确
+
+    # 计算CDF
+    cdf = frequency_counts.cumsum() / frequency_counts.sum()
+
+    # 打印一些统计信息（可选）
+    print(cdf)
+
+    # 设置绘图样式
+    # plt.style.use("fivethirtyeight")
+    plt.rcParams['font.family'] = 'Arial Unicode MS'
+
+    # 绘制CDF
+    plt.figure(figsize=(14, 6))
+    plt.plot(cdf.index, cdf.values, linestyle='-', linewidth=10)
+    plt.xlabel('Count', fontsize=44)
+    plt.ylabel('CDF', fontsize=44)
+    plt.grid(True)
+
+    # 设置x轴主刻度为整数
+    plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+
+    # 修改 X 轴刻度字体
+    plt.tick_params(axis='x', labelsize=30)  # 设置 X 轴刻度字体大小为 16
+    # 修改左 Y 轴刻度字体
+    plt.tick_params(axis='y', labelsize=30)  # 设置左 Y 轴刻度字体大小为 16
+
+    plt.gca().yaxis.set_major_locator(ticker.MultipleLocator(0.2))  # 每隔 60 一格
+    plt.gca().set_ylim(0, 1 * 1.1)  # 直方图的最大范围同步
+
+    plt.tight_layout()
+    plt.savefig('skewed_temporal.pdf', facecolor='white', bbox_inches='tight')
+    plt.show()
+
+
 
 # 设置目标目录路径
 filename_list_path = "/Users/wangtianze/直博/项目/Athena/athena/lakebench/join/filename_list.txt"
@@ -98,62 +144,4 @@ data = extract_column_from_csv_with_pandas(csv_file_path,  'query_table', 'candi
 
 # 按编号映射列数据
 mapped_data = map_column_data_to_numbers(data, file_number_map)
-
-# 计算相邻项之间的绝对差值
-differences = calculate_absolute_differences(mapped_data)
-
-print("max difference:", max(differences))
-
-# 打印映射后的数据和差值
-# print("Mapped Data:", mapped_data)
-# print("Differences:", differences)
-
-diffs = differences
-
-plt.rcParams['font.family'] = 'Arial Unicode MS'
-
-fig, ax1 = plt.subplots(figsize=(14, 6))
-
-# 绘制直方图（左轴）
-
-bins = np.arange(0, 2828, 22)
-
-ax1.hist(diffs, bins=bins, alpha=0.6, label='Count', color='#003a75')
-ax1.set_xlabel('Gap', fontsize=44, color='black')
-ax1.set_ylabel('Count', color='black', fontsize=44)
-ax1.tick_params(axis='y', labelcolor='black')
-ax1.tick_params(axis='x', labelsize=24, colors='black')
-# ax1.yaxis.set_major_locator(ticker.MultipleLocator(1250))  # 每隔 1250 一格
-ax1.set_ylim(0, 1500 * 11 * 1.1)  # 动态设置Y轴范围
-
-# 删除右轴和CDF线条部分
-# 删除创建右侧 Y 轴
-# ax2 = ax1.twinx()
-
-# 删除 CDF 绘制
-# cdf_plot, = ax2.plot(sorted_diffs, cdf, label='CDF', linestyle='-', alpha=0.8, color='#9f0000')
-# ax2.set_ylabel('CDF', color='black', fontsize=36)
-# ax2.set_ylim(0, 1.1)  # CDF 固定范围
-
-# 合并图例
-handles1, labels1 = ax1.get_legend_handles_labels()
-# handles2, labels2 = ax2.get_legend_handles_labels()
-# handles = handles1 + [cdf_plot]  # 添加 CDF 的线条句柄
-# labels = labels1 + ['CDF']      # 添加 CDF 的标签
-plt.legend(handles1, labels1, loc='upper right', fontsize=28)
-
-# 修改 X 轴刻度字体
-ax1.tick_params(axis='x', labelsize=30)  # 设置 X 轴刻度字体大小为 16
-# 修改左 Y 轴刻度字体
-ax1.tick_params(axis='y', labelsize=30)  # 设置左 Y 轴刻度字体大小为 16
-
-# 添加网格和样式
-ax1.grid(alpha=0.4)
-
-# 调整布局
-plt.tight_layout()
-
-plt.savefig('skewed_temporal.pdf', facecolor='white', bbox_inches='tight')
-
-# 显示图表
-plt.show()
+plot_cdf(mapped_data)

@@ -23,9 +23,9 @@ for line in lines:
 start_time = data[0][1]
 intervals = [(start - start_time, end - start_time) for _, start, end in data]
 
-plt.style.use("ggplot")
+# plt.style.use("ggplot")
 # 增大字体大小
-plt.rcParams.update({'font.size': 30})
+plt.rcParams.update({'font.size': 36})
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 # 绘制区间
 fig, ax = plt.subplots(figsize=(8, 7))
@@ -113,7 +113,7 @@ ax.add_patch(rect3)
 # ax.text(0.3, 92, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
 #         horizontalalignment='center', verticalalignment='center')
 
-ax.text(1.02, 186, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
+ax.text(1.02, 186, 'Batch I/O', fontsize=26, color='red', fontweight='bold',
         horizontalalignment='center', verticalalignment='center')
 
 # ax.text(1.73, 169, 'Batch I/O', fontsize=24, color='red', fontweight='bold',
@@ -134,7 +134,7 @@ arrow2 = patches.FancyArrowPatch((0.68, 210), (1.41, 210), color='green', linewi
 # 添加箭头到坐标轴
 ax.add_patch(arrow2)
 
-ax.text(1.045, 232, 'Batch\nComputation', fontsize=24, color='green', fontweight='bold',
+ax.text(1.045, 232, 'Batch\nComputation', fontsize=26, color='green', fontweight='bold',
         horizontalalignment='center', verticalalignment='center')
 
 

@@ -28,7 +28,8 @@ for line in lines:
         capacity_data_dict[path].append((current_round, capacity))
 
 # 只选择特定的路径
-selected_paths = ['/ImageNet/train', '/mit/train','/twitter/cluster035','/spark-tpcds-data',  ]
+selected_paths = ['/ImageNet/train', '/mit/train','/spark-tpcds-data','/twitter/cluster035',  ]
+# selected_paths = ['/ImageNet/train', '/mit/train','/LakeBench_join', '/RAG_small', ]
 capacity_data_dict = {path: capacity_data_dict[path] for path in selected_paths if path in capacity_data_dict}
 
 # 确保所有路径的数据长度相同
@@ -38,8 +39,8 @@ for path in capacity_data_dict:
     round_dict = {round_num: capacity for round_num, capacity in round_capacities}
     capacity_data_dict[path] = [round_dict.get(round_num, 0) for round_num in range(1, max_rounds + 1)]
 
-if '/ImageNet/train' in capacity_data_dict:
-    capacity_data_dict['/ImageNet/train'] = [capacity - 250 for capacity in capacity_data_dict['/ImageNet/train']]
+# if '/ImageNet/train' in capacity_data_dict:
+#     capacity_data_dict['/ImageNet/train'] = [capacity - 250 for capacity in capacity_data_dict['/ImageNet/train']]
 
 # 给所有值 *10，然后转换为GB（MB除以1024）
 for path in capacity_data_dict:
@@ -50,10 +51,10 @@ for path in capacity_data_dict:
 # cmap = plt.get_cmap('rainbow')
 # colors = cmap(np.linspace(0, 1, len(capacity_data_dict)))
 
-plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
+# plt.style.use("ggplot")  # 使用 fivethirtyeight 风格
 plt.rcParams['font.family'] = 'Arial Unicode MS'
 
-fontsize = 28
+fontsize = 32
 legend_fontsize = fontsize
 figsize = (16, 6)
 plt.rcParams.update({'font.size': fontsize})  # 设置字体大小
@@ -71,18 +72,32 @@ fig, ax = plt.subplots(figsize=figsize)
 
 ggplot_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
-colors = ggplot_colors[1:]
+colors = ['#e0543c', '#3989ba', '#998fd2', '#67c1a6']
 
 # colors = ['Purples', 'Blues', 'Greens', 'Oranges']
+
+# twitter_path = '/twitter/cluster035'
+# fluctuation_value = 8e-9
+# fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
+# capacity_data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in capacity_data_dict[twitter_path]]
 
 for (path, capacities), color in zip(capacity_data_dict.items(), colors):
     plt.plot(range(1, max_rounds + 1), capacities, label={
         '/ImageNet/train': "Job\u2468",
         '/mit/train': "Job\u246C",
-        '/spark-tpcds-data': "Job\u246E",
-        '/twitter/cluster035': "Job\u246D",
+        '/spark-tpcds-data': "Job\u246D",
+        '/twitter/cluster035': "Job\u246F",
     }[path], linewidth=2, color=color)
-plt.xlabel('Round')
+
+# for (path, capacities), color in zip(capacity_data_dict.items(), colors):
+#     plt.plot(range(1, max_rounds + 1), capacities, label={
+#         '/ImageNet/train': "Job\u2468",
+#         '/mit/train': "Job\u246C",
+#         '/LakeBench_join': "Job\u246D",
+#         '/RAG_small': "Job\u246F",
+#     }[path], linewidth=3, color=color)
+
+plt.xlabel('Round',fontsize=40)
 plt.ylabel('Capacity (GB)',labelpad=40)
 # plt.title('Capacity Changes Across Rounds in GB')
 handles, labels = ax.get_legend_handles_labels()
@@ -90,8 +105,8 @@ handles, labels = ax.get_legend_handles_labels()
 #            ncol=6, fontsize=legend_fontsize, frameon=False)
 
 # 显示图形并保存为白色背景的图片
-plt.tight_layout(rect=(0, 0, 1, 0.9))
-plt.grid(True)
+plt.tight_layout(rect=(0.04, 0, 1, 0.93))
+# plt.grid(True)
 # ax.set_facecolor('white')  # 设置绘图区域的背景色为白色
 # fig.patch.set_facecolor('white')  # 设置整个图形的背景
 plt.savefig('capacity.pdf', facecolor='white', bbox_inches='tight')

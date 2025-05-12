@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import ticker
 
 # 数据
 # categories = ['Overall', 'ImageNet', 'MITPlaces', 'OPT Loading', 'AudioMNIST', 'FashionProduct', 'AirQuality', 'ICOADS']
@@ -39,11 +40,19 @@ fontsize = 28
 legend_fontsize = 19
 bar_width = 0.1  # 调整条形宽度以适应更多条形
 index = np.arange(len(categories))  # 分类标签位置
-# figsize = (12, 4) # paper size
-figsize = (20, 4)
+figsize = (12, 4) # paper size
+# figsize = (20, 4)
 
 plt.style.use("ggplot")
 plt.rcParams['font.family'] = 'Arial Unicode MS'
+plt.rcParams.update({
+    'text.color': 'black',         # 所有文本颜色
+    'axes.labelcolor': 'black',    # 坐标轴标签颜色
+    'xtick.color': 'black',        # x 轴刻度颜色
+    'ytick.color': 'black',        # y 轴刻度颜色
+    'axes.titlecolor': 'black',    # 坐标轴标题颜色
+    'legend.labelcolor': 'black',  # 图例标签字体颜色
+})
 fig, ax = plt.subplots(figsize=figsize)  # 调整图表宽度以适应新列
 
 # 绘制条形图，按照athena, no, stride, juicefs, context顺序
@@ -64,6 +73,8 @@ yticks = [float(f"{i:.1f}") for i in ax.get_yticks()]
 ax.set_ylim(0, max(yticks))
 ax.set_yticks(yticks)
 ax.set_yticklabels(yticks, fontsize=fontsize)
+ax.yaxis.set_major_locator(ticker.MultipleLocator(2))  # 每隔0.5一格
+
 
 # 将图例放置在顶部
 handles, labels = ax.get_legend_handles_labels()

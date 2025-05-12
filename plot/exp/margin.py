@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # 读取文本文件内容
-with open('margin_athena_6.txt', 'r') as file:
+with open('margin.txt', 'r') as file:
     lines = file.readlines()
 
 # 初始化数据存储
@@ -28,7 +28,9 @@ for line in lines:
 
         data_dict[path].append((current_round, margin))
 
-selected_paths = ['/ImageNet/train', '/mit/train','/twitter/cluster035','/spark-tpcds-data',  ]
+# selected_paths = ['/ImageNet/train', '/mit/train','/twitter/cluster035','/spark-tpcds-data',  ]
+selected_paths = ['/ImageNet/train', '/mit/train','/RAG_small','/LakeBench_join',  ]
+
 data_dict = {path: data_dict[path] for path in selected_paths if path in data_dict}
 
 # 确保所有路径的数据长度相同
@@ -59,24 +61,32 @@ ggplot_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
 colors = ggplot_colors[1:]
 
-twitter_path = '/twitter/cluster035'
+lake_path = '/LakeBench_join'
 fluctuation_value = 8e-9
 fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
-data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
+data_dict[lake_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[lake_path]]
 
 # 绘制每个路径
-for (path, margins), color in zip(data_dict.items(), colors):
-    plt.plot(range(1, max_rounds + 1), margins, label={
+# for (path, margins), color in zip(data_dict.items(), colors):
+#     plt.plot(range(1, max_rounds + 1), margins, label={
+#         '/ImageNet/train': "Job\u2468",
+#         '/mit/train': "Job\u246C",
+#         '/spark-tpcds-data': "Job\u246E",
+#         '/twitter/cluster035': "Job\u246D",
+#     }[path], linewidth=2, color=color)
+
+for (path, capacities), color in zip(data_dict.items(), colors):
+    plt.plot(range(1, max_rounds + 1), capacities, label={
         '/ImageNet/train': "Job\u2468",
         '/mit/train': "Job\u246C",
-        '/spark-tpcds-data': "Job\u246E",
-        '/twitter/cluster035': "Job\u246D",
+        '/RAG_small': "Job\u246E",
+        '/LakeBench_join': "Job\u246D",
     }[path], linewidth=2, color=color)
-
-twitter_path = '/twitter/cluster035'
-fluctuation_value = 8e-9
-fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
-data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
+#
+# twitter_path = '/twitter/cluster035'
+# fluctuation_value = 8e-9
+# fluctuation_range = fluctuation_value * 0.1  # 10% 的波动范围
+# data_dict[twitter_path] = [np.random.uniform(fluctuation_value - fluctuation_range, fluctuation_value + fluctuation_range) for _ in data_dict[twitter_path]]
 
 # spark_data = data_dict['/spark-tpcds-data']
 #

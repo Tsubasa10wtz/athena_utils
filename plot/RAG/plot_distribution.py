@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import os
 
 # 定义文件路径
-file_path = 'filtered_crag_3.txt'
+# file_path = 'filtered_crag_3.txt'
+file_path = 'filtered_triviaqa_diskann_1221.txt'
 
 # 定义保存结果的列表
 diffs = []
